@@ -1,0 +1,153 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    text-align: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+input, button {
+    margin: 10px;
+    padding: 10px;
+    width: 80%;
+    display: block;
+    border: 1px solid #ccc; /* Add border for input fields */
+    border-radius: 5px;
+    transition: border-color 0.3s ease; /* Smooth transition for border color */
+}
+
+input:focus {
+    outline: none;
+    border-color: #007BFF; /* Highlight border on focus */
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#login-page, #signup-page, #main-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#otp-section {
+    margin-top: 10px;
+}
+
+/* Modal Styles */
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 300px;
+    position: relative; /* Added to ensure relative positioning for close button */
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Hover Effects */
+#show-signup, #show-login {
+    color: #007BFF;
+    cursor: pointer;
+    transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+#show-signup:hover, #show-login:hover {
+    color: #0056b3;
+}
+
+/* Loader Styles */
+/* Loader Styles */
+.loader {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    display: none; /* Hide loader initially */
+    pointer-events: none; /* Allow clicks through the loader */
+}
+
+.loader.active {
+    pointer-events: all; /* Block clicks when loader is active */
+}
+
+.loader .dot1, .loader .dot2, .loader .dot3 {
+    width: 15px;
+    height: 15px;
+    background-color: #3498db; /* Blue color for the dots */
+    border-radius: 50%;
+    animation: bounce 1.2s infinite ease-in-out;
+}
+
+.loader .dot2 {
+    animation-delay: -0.4s;
+}
+
+.loader .dot3 {
+    animation-delay: -0.8s;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1);
+    }
+}
+
+
+
+
+
+
+

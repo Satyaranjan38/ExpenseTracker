@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Expense Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Expense Tracker</div>
+        <div id="profile">
+            <img id="profile-picture" src="" alt="Profile Picture">
+            <div id="profile-name"></div>
+        </div>
+    </header>
+
+    <main>
+
+        <div id="total-expense">Total Expense: $0.00</div>
+        <section id="add-expense">
+            <h2>Add Expense</h2>
+            <form id="expense-form">
+                <input type="text" id="expense-name" placeholder="Expense Name" required>
+                <input type="number" id="expense-amount" placeholder="Amount" required>
+                <input type="date" id="expense-date" required>
+                <select id="expense-category" required>
+                    <option value="" disabled selected>Select Category</option>
+                    <option value="food">Food</option>
+                    <option value="transportation">Transportation</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="utilities">Utilities</option>
+                    <option value="others">Others</option>
+                </select>
+                <button type="submit">Add Expense</button>
+            </form>
+        </section>
+
+        <section id="expense-list">
+            <h2>Expense List</h2>
+            <ul id="expenses">
+                <!-- List of expenses will be dynamically loaded here -->
+            </ul>
+            
+        </section>
+
+        <section id="budget">
+            <h2>Set Budget</h2>
+            <form id="budget-form">
+                <input type="number" id="budget-amount" placeholder="Budget Amount" required>
+                <button type="submit">Set Budget</button>
+            </form>
+        </section>
+
+        <section id="report">
+            <h2>Expense Report</h2>
+            <canvas id="expense-chart"></canvas>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 Expense Tracker. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
