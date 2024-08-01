@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     checkAuthorization() ; 
+    displayUserName();
+
+    
     const expenseForm = document.getElementById('expense-form');
     const budgetForm = document.getElementById('budget-form');
     const expensesList = document.getElementById('expenses');
@@ -48,6 +51,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!accessToken && !userName) {
              window.location.href = 'login.html';
         }
+    }
+
+    function displayUserName() {
+        const userName = localStorage.getItem('userName');
+        const profileNameElement = document.getElementById('profile-name');
+        profileNameElement.textContent = userName;
     }
 
     function displayExpenses() {
