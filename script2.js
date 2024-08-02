@@ -46,8 +46,9 @@ document.getElementById('transactionForm').addEventListener('submit', function(e
     const date = document.getElementById('expense-date').value;
     const userName = localStorage.getItem('userName');
     const reason = document.getElementById('reason').value;
+    const API_BASE_URL = 'https://MovieSearch.cfapps.us10-001.hana.ondemand.com'; 
 
-    fetch(`http://localhost:8086/api/transactions`, {
+    fetch(`${API_BASE_URL}/api/transactions`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -78,7 +79,7 @@ function addTransactionToUI(transaction) {
 
 // Delete transaction
 function deleteTransaction(id) {
-    fetch(`http://localhost:8086/api/transactions/${id}`, { method: 'DELETE' })
+    fetch(`${API_BASE_URL}/api/transactions/${id}`, { method: 'DELETE' })
         .then(() => {
             document.getElementById('transactionsList').innerHTML = '';
             fetchTransactions();
@@ -88,7 +89,7 @@ function deleteTransaction(id) {
 // Fetch transactions from the server
 function fetchTransactions() {
     const userName = localStorage.getItem('userName');
-    fetch(`http://localhost:8086/api/transactions/${userName}`)
+    fetch(`${API_BASE_URL}/api/transactions/${userName}`)
         .then(response => response.json())
         .then(transactions => {
             transactions.forEach(addTransactionToUI);
@@ -99,7 +100,7 @@ function fetchTransactions() {
 // Update the chart with new data
 function updateChart() {
     const userName = localStorage.getItem('userName');
-    fetch(`http://localhost:8086/api/transactions/${userName}`)
+    fetch(`${API_BASE_URL}/api/transactions/${userName}`)
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
