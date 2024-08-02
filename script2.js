@@ -1,4 +1,6 @@
 // Initialize Chart.js chart
+
+const API_BASE_URL = 'https://MovieSearch.cfapps.us10-001.hana.ondemand.com'; 
 const ctx = document.getElementById('transactionChart').getContext('2d');
 const transactionChart = new Chart(ctx, {
     type: 'pie', // Change type to 'pie'
@@ -46,7 +48,7 @@ document.getElementById('transactionForm').addEventListener('submit', function(e
     const date = document.getElementById('expense-date').value;
     const userName = localStorage.getItem('userName');
     const reason = document.getElementById('reason').value;
-    const API_BASE_URL = 'https://MovieSearch.cfapps.us10-001.hana.ondemand.com'; 
+    
 
     fetch(`${API_BASE_URL}/api/transactions`, {
         method: 'POST',
