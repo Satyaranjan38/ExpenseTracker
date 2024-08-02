@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function setBudget() {
         const budgetAmount = parseFloat(document.getElementById('budget-amount').value);
         const userName = localStorage.getItem('userName');
-        fetch(`${API_BASE_URL}/budget/${userName}`, {
+        fetch(`https://MovieSearch.cfapps.us10-001.hana.ondemand.com/budget/${userName}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
