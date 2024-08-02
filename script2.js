@@ -110,8 +110,8 @@ function updateChart() {
         return response.json();
     })
     .then(transactions => {
-        const lentTotal = transactions.filter(t => t.transationType === 'Lent').reduce((sum, t) => sum + t.amount, 0);
-        const oweTotal = transactions.filter(t => t.transationType === 'Owe').reduce((sum, t) => sum + t.amount, 0);
+        const lentTotal = transactions.filter(t => t.transationType === 'lent').reduce((sum, t) => sum + t.amount, 0);
+        const oweTotal = transactions.filter(t => t.transationType === 'owe').reduce((sum, t) => sum + t.amount, 0);
 
         console.log(lentTotal);
         console.log(oweTotal);
