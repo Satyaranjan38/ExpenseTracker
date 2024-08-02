@@ -1,3 +1,5 @@
+
+
 document.addEventListener('DOMContentLoaded', () => {
     checkAuthorization() ; 
     displayUserName();
@@ -9,6 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const expenseChartCtx = document.getElementById('expense-chart').getContext('2d');
     const totalExpenseElement = document.getElementById('total-expense');
     const API_BASE_URL = 'https://MovieSearch.cfapps.us10-001.hana.ondemand.com'; 
+
+    const expenseChartCanvas = document.getElementById('expense-chart');
+    const currentMonthChartCanvas = document.getElementById('current-month-chart');;
+
+    let currentChart = null;
 
     expenseForm.addEventListener('submit', (event) => {
         event.preventDefault();
@@ -61,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function displayExpenses() {
         const userName = localStorage.getItem('userName');
-        fetch(`${API_BASE_URL}/expense/${userName}`)
+        fetch(`${API_BASE_URL}/expense/current-month/${userName}`)
         .then(response => response.json())
         .then(expenses => {
             expensesList.innerHTML = '';
@@ -109,6 +116,71 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.error('Error setting budget:', error));
     }
 
+
+    function createChart(canvas, chartType, data, labels, label) {
+        if (currentChart) {
+            currentChart.destroy();
+        }
+
+        currentChart = new Chart(canvas.getContext('2d'), {
+            type: chartType,
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    data: data,
+                    backgroundColor: chartType === 'pie' ? 
+                        ['red', 'blue', 'green', 'orange', 'purple'] :
+                        'rgba(75, 192, 192, 0.2)',
+                    borderColor: chartType === 'pie' ? 
+                        [] : 'rgba(75, 192, 192, 1)',
+                    borderWidth: chartType === 'pie' ? 0 : 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: chartType === 'bar' ? {
+                    x: {
+                        type: 'category',
+                        labels: labels,
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                } : {}
+            }
+        });
+    }
+
+    
+    
+    function showPieChart(expenses) {
+        
+        createChart(expenseChartCanvas, 'pie', expenses.values, expenses.categories, 'Current Month Expenses');
+        expenseChartCanvas.style.display = 'block';
+        currentMonthChartCanvas.style.display = 'none';
+    }
+
+    function showBarChart(monthlyExpenses) {
+        createChart(currentMonthChartCanvas, 'bar', Object.values(monthlyExpenses), Object.keys(monthlyExpenses), 'Monthly Expenses');
+        expenseChartCanvas.style.display = 'none';
+        currentMonthChartCanvas.style.display = 'block';
+    }
+
+
+    function fetchData() {
+        const userName = localStorage.getItem('userName');
+        return {
+            currentMonthExpenses: fetch(`${API_BASE_URL}/expense/current-month/${userName}`)
+                .then(response => response.json())
+                .catch(error => console.error('Error fetching current month expenses:', error)),
+            monthWiseExpenses: fetch(`${API_BASE_URL}/expense/monthwise/${userName}`)
+                .then(response => response.json())
+                .catch(error => console.error('Error fetching monthly expenses:', error))
+        };
+    }
+    
+
     function updateChart() {
         const userName = localStorage.getItem('userName');
         fetch(`${API_BASE_URL}/expense/report/${userName}`)
@@ -138,6 +210,27 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.error('Error updating chart:', error));
     }
 
+    // document.getElementById('view-current-month').addEventListener('click', () => {
+        
+
+    //     fetchData().currentMonthExpenses.then(expenses => {
+    //         showPieChart({
+    //             categories: expenses.map(e => e.category),
+    //             values: expenses.map(e => e.amount)
+    //         });
+    //     });
+    // });
+
+    document.getElementById('view-monthly').addEventListener('click', () => {
+        fetchData().monthWiseExpenses.then(monthlyExpenses => {
+            showBarChart(monthlyExpenses);
+        });
+    });
+
     displayExpenses();
     updateChart();
 });
+
+
+
+
