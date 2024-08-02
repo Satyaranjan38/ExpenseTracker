@@ -72,22 +72,30 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayExpenses() {
         const userName = localStorage.getItem('userName');
         fetch(`${API_BASE_URL}/expense/current-month/${userName}`)
-        .then(response => response.json())
-        .then(expenses => {
-            expensesList.innerHTML = '';
-            let totalExpense = 0;
-            expenses.forEach(expense => {
-                const listItem = document.createElement('li');
-                listItem.innerHTML = `
-                    ${expense.name} - $${expense.amount.toFixed(2)} - ${expense.date} - ${expense.catagory}
-                    <button onclick="deleteExpense(${expense.id})">Delete</button>
-                `;
-                expensesList.appendChild(listItem);
-                totalExpense += expense.amount;
-            });
-            totalExpenseElement.textContent = `Total Expense: $${totalExpense.toFixed(2)}`;
-        })
-        .catch(error => console.error('Error fetching expenses:', error));
+            .then(response => response.json())
+            .then(expenses => {
+                const expensesTableBody = document.getElementById('expensesTableBody');
+                const totalExpenseElement = document.getElementById('total-expense');
+                
+                expensesTableBody.innerHTML = '';
+                let totalExpense = 0;
+                
+                expenses.forEach(expense => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${expense.name}</td>
+                        <td>${expense.amount.toFixed(2)}</td>
+                        <td>${expense.date}</td>
+                        <td>${expense.catagory}</td>
+                        <td><button onclick="deleteExpense(${expense.id})">Delete</button></td>
+                    `;
+                    expensesTableBody.appendChild(row);
+                    totalExpense += expense.amount;
+                });
+                
+                totalExpenseElement.textContent = `Total Expense: ${totalExpense.toFixed(2)}`;
+            })
+            .catch(error => console.error('Error fetching expenses:', error));
     }
 
     window.deleteExpense = (id) => {

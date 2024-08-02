@@ -39,9 +39,21 @@
 
         <section id="expense-list">
             <h2>Expense List</h2>
-            <ul id="expenses">
-                <!-- List of expenses will be dynamically loaded here -->
-            </ul>
+            <table id="expensesTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="expensesTableBody">
+                    <!-- Table rows will be dynamically loaded here -->
+                </tbody>
+            </table>
+            <div id="totalExpense"></div>
         </section>
 
         <section id="budget">
