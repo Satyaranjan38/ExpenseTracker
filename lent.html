@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owe & Lent Tracker</title>
+    <link rel="stylesheet" href="styles2.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Owe & Lent Tracker</div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="lent.html">Transactions</a>
+            <a href="index.html">Expense</a>
+            <a href="login.html">Login</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="form-section">
+            <h2>Add Transaction</h2>
+            <form id="transactionForm">
+                <input type="text" id="personName" placeholder="Person Name" required>
+                <input type="number" id="amount" placeholder="Amount" required>
+                <input type="date" id="expense-date"  required>
+                
+                <select id="transactionType" required>
+                    <option value="" disabled selected>Type</option>
+                    <option value="lent">Lent</option>
+                    <option value="owe">Owe</option>
+                </select>
+                <input type="text" id="reason"  placeholder="Reason(Optional)">
+                <input type="email" id="email" placeholder="Person Email (Optional)" >
+                <button type="submit">Add Transaction</button>
+            </form>
+        </section>
+
+        <section class="transactions-section">
+            <h2>Transactions</h2>
+            <ul id="transactionsList"></ul>
+        </section>
+
+        <section class="chart-section">
+            <h2>Monthly Transactions</h2>
+            <canvas id="transactionChart"></canvas>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 Owe & Lent Tracker. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script2.js"></script>
+</body>
+</html>

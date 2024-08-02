@@ -51,11 +51,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function checkAuthorization() {
+        console.log("checking authorization");
         const accessToken = localStorage.getItem('oauthToken');
         const userName = localStorage.getItem('userName');
+        console.log("user name " + userName);
         console.log("user login success ");
         
-        if (!accessToken && !userName) {
+        if (!accessToken || !userName) {
+            
              window.location.href = 'login.html';
         }
     }
@@ -227,9 +230,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    document.getElementById('lent').addEventListener('click', () => {
+        window.location.href='lent.html';
+    });
+
     displayExpenses();
     updateChart();
 });
+
+
 
 
 
