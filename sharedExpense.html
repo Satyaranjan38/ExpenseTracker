@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="SharedExpense.css">
+</head>
+<body>
+    <h1>Create Group</h1>
+    <form id="createGroupForm">
+        <input type="text" id="groupName" placeholder="Group Name" required>
+        <button type="submit">Create Group</button>
+    </form>
+
+    <h1>Join Group</h1>
+    <form id="joinGroupForm">
+        <input type="text" id="joinCode" placeholder="Join Code" required>
+        <input type="text" id="userName" placeholder="Your User Name" required>
+        <button type="submit">Join Group</button>
+    </form>
+
+    <h1>Group Expenses</h1>
+    <div id="groupExpenses"></div>
+
+    <script src="SharedExpense.js"></script>
+</body>
+</html>

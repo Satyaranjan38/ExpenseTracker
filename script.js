@@ -3,6 +3,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     checkAuthorization() ; 
     displayUserName();
+     
 
     
     const expenseForm = document.getElementById('expense-form');
@@ -11,9 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const expenseChartCtx = document.getElementById('expense-chart').getContext('2d');
     const totalExpenseElement = document.getElementById('total-expense');
     const API_BASE_URL = 'https://MovieSearch.cfapps.us10-001.hana.ondemand.com'; 
+    const budgetReportChartCanvas = document.getElementById('Budget-report-chart') ; 
 
     const expenseChartCanvas = document.getElementById('expense-chart');
-    const currentMonthChartCanvas = document.getElementById('current-month-chart');;
+    const currentMonthChartCanvas = document.getElementById('expense-chart');;
 
     let currentChart = null;
 
@@ -99,14 +101,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.deleteExpense = (id) => {
-        fetch(`${API_BASE_URL}/expense/${id}`, {
-            method: 'DELETE',
-        })
-        .then(() => {
-            displayExpenses();
-            updateChart();
-        })
-        .catch(error => console.error('Error deleting expense:', error));
+        if (confirm("Are you sure you want to delete this expense?")) {
+            fetch(`${API_BASE_URL}/expense/${id}`, {
+                method: 'DELETE',
+            })
+            .then(() => {
+                displayExpenses();
+                updateChart();
+            })
+            .catch(error => console.error('Error deleting expense:', error));
+        }
     };
 
     function setBudget() {
@@ -163,6 +167,43 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+
+    function updateBudgetReport() {
+        const userName = localStorage.getItem('userName');
+        
+        fetch(`${API_BASE_URL}/thisMonthBudgetReports/${userName}`)
+            .then(response => response.json())
+            .then(report => {
+                const budget = report.budget;
+                const totalExpense = report.expense;
+
+                console.log("budget is " + report.budget) ; 
+                console.log("total expense is " + report.expense) ; 
+
+                if (totalExpense <= budget) {
+                   
+                    createChart(
+                        budgetReportChartCanvas,
+                        'pie',
+                        [totalExpense, budget - totalExpense],
+                        ['Spent', 'Remaining'],
+                        'Budget Report',
+                        
+                    );
+                } 
+                else {
+                    createChart(
+                        budgetReportChartCanvas,
+                        'bar',
+                        [budget, totalExpense - budget],
+                        ['Budget', 'Exceeded'],
+                        'Budget Report'
+                    );
+                }
+            })
+            .catch(error => console.error('Error fetching budget report:', error));
+    }
+
     
     
     function showPieChart(expenses) {
@@ -173,6 +214,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showBarChart(monthlyExpenses) {
+
+        if (window.expenseChart) {
+            window.expenseChart.destroy();
+        }
         createChart(currentMonthChartCanvas, 'bar', Object.values(monthlyExpenses), Object.keys(monthlyExpenses), 'Monthly Expenses');
         expenseChartCanvas.style.display = 'none';
         currentMonthChartCanvas.style.display = 'block';
@@ -212,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         label: 'Expenses by Category',
                         data: categoryTotals,
                         backgroundColor: [
-                            'red', 'blue', 'green', 'orange', 'purple'
+                            'gray', 'blue', 'green', 'orange', 'purple'
                         ]
                     }]
                 }
@@ -232,10 +277,38 @@ document.addEventListener('DOMContentLoaded', () => {
     //     });
     // });
 
+    function downloadPdf() {
+       
+    
+        fetch(`${API_BASE_URL}/pdf/download/${localStorage.getItem('userName')}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(new Blob([blob]));
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'expense_report.pdf';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch(error => console.error('Error downloading PDF:', error));
+    }
+
+
     document.getElementById('view-monthly').addEventListener('click', () => {
         fetchData().monthWiseExpenses.then(monthlyExpenses => {
             showBarChart(monthlyExpenses);
         });
+    });
+
+    document.getElementById('download-pdf').addEventListener('click', () => {
+        downloadPdf();
     });
 
     document.getElementById('lent').addEventListener('click', () => {
@@ -244,6 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     displayExpenses();
     updateChart();
+    updateBudgetReport();
 });
 
 
