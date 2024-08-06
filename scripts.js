@@ -37,7 +37,18 @@ document.addEventListener('DOMContentLoaded',async function() {
     const CLIENT_SECRET = 'PoDxFeCXfWYmlfluThhpUUd6Uwo='; // Replace with your XSUAA client secret
     const TOKEN_URL = 'https://cee938d6trial.authentication.us10.hana.ondemand.com/oauth/token'; // Replace with your XSUAA token URL
     const demoApiUrl = 'https://MovieSearch.cfapps.us10-001.hana.ondemand.com/HelloWorld/satya';
+
     let accessToken = localStorage.getItem('oauthToken') // Get the token from localstorage 
+
+    if (!accessToken) {
+
+        console.log("access token " +accessToken ) ; 
+        // clearCookiesAndLocalStorage();
+        // console.log("not authorized ") ; 
+        await fetchAccessToken() ; 
+        
+    }
+
     const isAuthorized = await checkAuthorization(demoApiUrl);
 
     // if(isAuthorized){
