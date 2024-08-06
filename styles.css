@@ -154,6 +154,10 @@ tr:nth-child(even) {
     .table-responsive {
         overflow-x: auto;
     }
+
+    .modal-content {
+        width: 90%;
+    }
 }
 
 /* For wide tables on smaller screens */
@@ -185,3 +189,98 @@ tr:nth-child(even) {
         transform: translateY(0);
     }
 }
+
+/* Notification Button Styles */
+#notification-btn {
+    background: none;
+    border: none;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    font-size: 1.5rem;
+    color: white;
+}
+
+#notification-btn img {
+    width: 24px;
+    height: 24px;
+}
+
+#notification-count {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: bold;
+    display: none;
+}
+
+#notification-btn:hover #notification-count {
+    background-color: darkred;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#notification-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#notification-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+#notification-list li.unread {
+    font-weight: bold;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+

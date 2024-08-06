@@ -352,6 +352,81 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(error => console.error('Error fetching expenses:', error));
     }
 
+    const notificationBtn = document.getElementById('notification-btn');
+const modal = document.getElementById('notification-modal');
+const closeModal = document.querySelector('.close');
+const notificationList = document.getElementById('notification-list');
+const notificationCount = document.getElementById('notification-count');
+
+notificationBtn.addEventListener('click', () => {
+    fetchNotifications();
+    modal.style.display = 'block';
+});
+
+closeModal.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
+
+window.addEventListener('click', (event) => {
+    if (event.target == modal) {
+        modal.style.display = 'none';
+    }
+});
+
+const fetchNotifications = () => {
+    const userName = localStorage.getItem('userName');
+    fetch(`${API_BASE_URL}/getNotification?userName=${userName}`)
+        .then(response => response.json())
+        .then(notifications => {
+            notificationList.innerHTML = '';
+            let unreadCount = 0;
+            notifications.forEach(notification => {
+                const listItem = document.createElement('li');
+                listItem.textContent = notification.content;
+                if (!notification.isRead) {
+                    listItem.classList.add('unread');
+                    unreadCount++;
+                }
+                listItem.addEventListener('click', () => {
+                    markAsRead(notification);
+                });
+                notificationList.appendChild(listItem);
+            });
+            updateNotificationCount(unreadCount);
+        })
+        .catch(error => console.error('Error fetching notifications:', error));
+};
+
+const markAsRead = (notification) => {
+    fetch(`${API_BASE_URL}/updateNotification?userName=${notification.toName}&isRead=true`)
+        .then(response => response.json())
+        .then(updatedNotification => {
+            if (updatedNotification.isRead) {
+                const listItem = [...notificationList.children].find(
+                    item => item.textContent === notification.content
+                );
+                listItem.classList.remove('unread');
+                listItem.removeEventListener('click', () => {
+                    markAsRead(notification);
+                });
+            }
+            // Decrease the unread count
+            const currentCount = parseInt(notificationCount.textContent) || 0;
+            updateNotificationCount(currentCount - 1);
+        })
+        .catch(error => console.error('Error updating notification:', error));
+};
+
+const updateNotificationCount = (count) => {
+    if (count > 0) {
+        notificationCount.textContent = count;
+        notificationCount.style.display = 'inline';
+    } else {
+        notificationCount.style.display = 'none';
+    }
+};
+
+
 
 
 
@@ -359,6 +434,7 @@ document.addEventListener('DOMContentLoaded', () => {
     displayExpenses();
     updateChart();
     updateBudgetReport();
+    fetchNotifications();
 });
 
 
