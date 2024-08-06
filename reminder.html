@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reminder Tracker</title>
+    <link rel="stylesheet" href="reminder.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Reminder Tracker</div>
+        <a href="index.html">Home</a>
+    </header>
+    
+    
+
+    <main>
+        <section id="add-reminder">
+            <h2>Add Reminder</h2>
+            <form id="reminder-form">
+                <input type="text" id="reminder-title" placeholder="Reminder Title" required>
+                <input type="datetime-local" id="reminder-date" required>
+                <input type="text" id ="category" placeholder="Category" required>
+                <button type="submit">Add Reminder</button>
+            </form>
+        </section>
+
+        <section id="reminder-list">
+            <h2>Reminder List</h2>
+            <div class="table-responsive">
+                <table id="remindersTable">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Date & Time</th>
+                            <th>Category</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="remindersTableBody">
+                        <!-- Table rows will be dynamically loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 Reminder Tracker. All rights reserved.</p>
+    </footer>
+
+    <script src="reminder.js"></script>
+</body>
+</html>

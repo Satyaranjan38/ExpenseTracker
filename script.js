@@ -106,6 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'DELETE',
             })
             .then(() => {
+                // filterExpenses();
                 displayExpenses();
                 updateChart();
             })
@@ -314,6 +315,46 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('lent').addEventListener('click', () => {
         window.location.href='lent.html';
     });
+
+    const filterCategory = document.getElementById('filter-category');
+
+    filterCategory.addEventListener('change', () => {
+        filterExpenses();
+    });
+
+    function filterExpenses() {
+        const selectedCategory = filterCategory.value;
+        const userName = localStorage.getItem('userName');
+        fetch(`${API_BASE_URL}/expense/current-month/${userName}`)
+            .then(response => response.json())
+            .then(expenses => {
+                const expensesTableBody = document.getElementById('expensesTableBody');
+                expensesTableBody.innerHTML = '';
+                let totalExpense = 0;
+
+                expenses
+                    .filter(expense => !selectedCategory || expense.catagory === selectedCategory)
+                    .forEach(expense => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${expense.name}</td>
+                            <td>${expense.amount.toFixed(2)}</td>
+                            <td>${expense.date}</td>
+                            <td>${expense.catagory}</td>
+                            <td><button onclick="deleteExpense(${expense.id})">Delete</button></td>
+                        `;
+                        expensesTableBody.appendChild(row);
+                        totalExpense += expense.amount;
+                    });
+
+                totalExpenseElement.textContent = `Total Expense: ${totalExpense.toFixed(2)}`;
+            })
+            .catch(error => console.error('Error fetching expenses:', error));
+    }
+
+
+
+
 
     displayExpenses();
     updateChart();

@@ -44,9 +44,27 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Amount</th>
-                        <th>Date</th>
-                        <th>Category</th>
+                        <th>
+                            Amount
+                            <!-- <button id="sort-amount-asc">↑</button>
+                            <button id="sort-amount-desc">↓</button> -->
+                        </th>
+                        <th>
+                            Date
+                            <!-- <button id="sort-date-asc">↑</button>
+                            <button id="sort-date-desc">↓</button> -->
+                        </th>
+                        <th>
+                            Category
+                            <select id="filter-category">
+                                <option value="">All</option>
+                                <option value="food">Food</option>
+                                <option value="transportation">Transportation</option>
+                                <option value="entertainment">Entertainment</option>
+                                <option value="utilities">Utilities</option>
+                                <option value="others">Others</option>
+                            </select>
+                        </th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -54,7 +72,7 @@
                     <!-- Table rows will be dynamically loaded here -->
                 </tbody>
             </table>
-        </div>
+            </div>
             <div id="totalExpense"></div>
         </section>
         <button id="download-pdf">Download PDF</button>
