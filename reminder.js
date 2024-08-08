@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     const API_BASE_URL = 'https://MovieSearch.cfapps.us10-001.hana.ondemand.com'; // Replace with your actual API base URL
+    //const API_BASE_URL = 'http://localhost:8086';
     const reminderForm = document.getElementById('reminder-form');
     const remindersTableBody = document.getElementById('remindersTableBody');
-    const category = document.getElementById('category') ; 
+    
 
     reminderForm.addEventListener('submit', (event) => {
         event.preventDefault();
@@ -13,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const title = document.getElementById('reminder-title').value;
         const date = document.getElementById('reminder-date').value;
         const userName = localStorage.getItem('userName');
+        const category = document.getElementById('catagory').value ; 
 
         fetch(`${API_BASE_URL}/reminders`, {
             method: 'POST',
