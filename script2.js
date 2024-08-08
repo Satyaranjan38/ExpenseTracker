@@ -85,7 +85,7 @@ function addTransactionToUI(transaction) {
                 <div class="dropdown-content">
                     <a href="#" onclick="deleteTransaction(${transaction.id})">Delete</a>
                     <a href="#" onclick="markAsPaid(${transaction.id})">Paid</a>
-                    <a href="#" onclick="notifyPerson(${transaction.id}, '${transaction.personEmail}')">Notify</a>
+                    <a href="#" onclick="notifyPerson(${transaction.id}, '${transaction.personEmail}' ,'${transaction.transationType}' )">Notify</a>
                 </div>
             </div>
         </td>
@@ -113,7 +113,13 @@ function markAsPaid(id) {
         });
 }
 
-function notifyPerson(id, email) {
+function notifyPerson(id, email ,transationType ) {
+
+    if(transationType==='lent'){
+        alert("You can not notify because you lent money"); 
+        return ;
+
+    }
     if (email) {
         showLoader();
         fetch(`${API_BASE_URL}/postNotification/${id}`, {
