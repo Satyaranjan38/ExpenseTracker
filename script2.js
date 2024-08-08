@@ -29,6 +29,20 @@ const transactionChart = new Chart(ctx, {
     }
 });
 
+
+function showLoader() {
+    const loader = document.getElementById('loader');
+    loader.classList.add('active');
+    loader.style.display = 'flex';
+}
+
+// Function to hide the loader
+function hideLoader() {
+    const loader = document.getElementById('loader');
+    loader.classList.remove('active');
+    loader.style.display = 'none';
+}
+
 document.getElementById('transactionForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
@@ -80,41 +94,50 @@ function addTransactionToUI(transaction) {
 }
 
 function deleteTransaction(id) {
+    showLoader(); 
     fetch(`${API_BASE_URL}/api/transactions/${id}`, { method: 'DELETE' })
         .then(() => {
             document.querySelector(`#transactionsTable tbody`).innerHTML = '';
+            hideLoader() ; 
             fetchTransactions();
         });
 }
 
 function markAsPaid(id) {
+    showLoader();
     fetch(`${API_BASE_URL}/updateStatus/${id}`, { method: 'POST' })
         .then(() => {
             document.querySelector(`#transactionsTable tbody`).innerHTML = '';
+            hideLoader() ; 
             fetchTransactions();
         });
 }
 
 function notifyPerson(id, email) {
     if (email) {
+        showLoader();
         fetch(`${API_BASE_URL}/postNotification/${id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             }
+           
             
         });
+        hideLoader() ; 
     } else {
         alert("No email provided for this person.");
     }
 }
 
 function fetchTransactions() {
+    showLoader();
     const userName = localStorage.getItem('userName');
     fetch(`${API_BASE_URL}/api/transactions/${userName}`)
         .then(response => response.json())
         .then(transactions => {
             transactions.forEach(addTransactionToUI);
+            hideLoader() ; 
             updateChart();
         });
 }

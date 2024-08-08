@@ -168,7 +168,26 @@ tr:nth-child(even) {
     -webkit-overflow-scrolling: touch;
 }
 
-#expense-chart, #current-month-chart {
+/* Chart Container */
+#charts-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+#charts-wrapper {
+    display: flex;
+    flex: 1;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+#report, #budget-report {
+    flex: 1;
+    min-width: 300px;
+}
+
+#expense-chart, #budget-report-chart {
     max-width: 100%;
     height: 400px;
 }
@@ -282,5 +301,12 @@ tr:nth-child(even) {
         flex-direction: column;
         align-items: center;
     }
-}
 
+    #charts-wrapper {
+        flex-direction: column;
+    }
+
+    #report, #budget-report {
+        min-width: 100%;
+    }
+}
