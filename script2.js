@@ -1,23 +1,15 @@
-// Initialize Chart.js chart
-
 const API_BASE_URL = 'https://MovieSearch.cfapps.us10-001.hana.ondemand.com'; 
 const ctx = document.getElementById('transactionChart').getContext('2d');
 const transactionChart = new Chart(ctx, {
-    type: 'pie', // Change type to 'pie'
+    type: 'pie', 
     data: {
-        labels: ['Lent', 'Owe'], // Pie chart labels
+        labels: ['Lent', 'Owe'],
         datasets: [{
             label: 'Transactions',
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)', // Color for 'Lent'
-                'rgba(75, 192, 192, 0.2)'  // Color for 'Owe'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(75, 192, 192, 1)'
-            ],
+            backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(75, 192, 192, 0.2)'],
+            borderColor: ['rgba(255, 99, 132, 1)', 'rgba(75, 192, 192, 1)'],
             borderWidth: 1,
-            data: [0, 0] // Initial data
+            data: [0, 0]
         }]
     },
     options: {
@@ -37,25 +29,23 @@ const transactionChart = new Chart(ctx, {
     }
 });
 
-// Handle form submission
 document.getElementById('transactionForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
     const personName = document.getElementById('personName').value;
     const amount = document.getElementById('amount').value;
-    const transactionType = document.getElementById('transactionType').value;
+    const transationType = document.getElementById('transactionType').value;
     const personEmail = document.getElementById('email').value;
     const date = document.getElementById('expense-date').value;
     const userName = localStorage.getItem('userName');
     const reason = document.getElementById('reason').value;
-    
 
     fetch(`${API_BASE_URL}/api/transactions`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ personName, amount, transationType: transactionType, personEmail, date, userName, reason }),
+        body: JSON.stringify({ personName, amount, transationType, personEmail, date, userName, reason }),
     })
     .then(response => response.json())
     .then(transaction => {
@@ -63,32 +53,62 @@ document.getElementById('transactionForm').addEventListener('submit', function(e
         updateChart();
     });
 
-    // Reset form
     this.reset();
 });
 
-// Add transaction to the UI
 function addTransactionToUI(transaction) {
-    const transactionsList = document.getElementById('transactionsList');
-    const li = document.createElement('li');
-    li.className = transaction.type;
-    li.innerHTML = `
-        ${transaction.personName} - $${transaction.amount} - ${transaction.transationType} - ${transaction.reason}
-        <button onclick="deleteTransaction(${transaction.id})">Delete</button>
+    const transactionsTable = document.querySelector('#transactionsTable tbody');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+        <td>${transaction.personName}</td>
+        <td>${transaction.amount}</td>
+        <td>${transaction.transationType}</td>
+        <td>${transaction.reason}</td>
+        <td>${transaction.paid}</td>
+        <td>
+            <div class="dropdown">
+                <button class="dropbtn">Actions</button>
+                <div class="dropdown-content">
+                    <a href="#" onclick="deleteTransaction(${transaction.id})">Delete</a>
+                    <a href="#" onclick="markAsPaid(${transaction.id})">Paid</a>
+                    <a href="#" onclick="notifyPerson(${transaction.id}, '${transaction.personEmail}')">Notify</a>
+                </div>
+            </div>
+        </td>
     `;
-    transactionsList.appendChild(li);
+    transactionsTable.appendChild(tr);
 }
 
-// Delete transaction
 function deleteTransaction(id) {
     fetch(`${API_BASE_URL}/api/transactions/${id}`, { method: 'DELETE' })
         .then(() => {
-            document.getElementById('transactionsList').innerHTML = '';
+            document.querySelector(`#transactionsTable tbody`).innerHTML = '';
             fetchTransactions();
         });
 }
 
-// Fetch transactions from the server
+function markAsPaid(id) {
+    fetch(`${API_BASE_URL}/updateStatus/${id}`, { method: 'POST' })
+        .then(() => {
+            document.querySelector(`#transactionsTable tbody`).innerHTML = '';
+            fetchTransactions();
+        });
+}
+
+function notifyPerson(id, email) {
+    if (email) {
+        fetch(`${API_BASE_URL}/postNotification/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+            
+        });
+    } else {
+        alert("No email provided for this person.");
+    }
+}
+
 function fetchTransactions() {
     const userName = localStorage.getItem('userName');
     fetch(`${API_BASE_URL}/api/transactions/${userName}`)
@@ -99,29 +119,17 @@ function fetchTransactions() {
         });
 }
 
-// Update the chart with new data
 function updateChart() {
     const userName = localStorage.getItem('userName');
     fetch(`${API_BASE_URL}/api/transactions/${userName}`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
+    .then(response => response.json())
     .then(transactions => {
         const lentTotal = transactions.filter(t => t.transationType === 'lent').reduce((sum, t) => sum + t.amount, 0);
         const oweTotal = transactions.filter(t => t.transationType === 'owe').reduce((sum, t) => sum + t.amount, 0);
 
-        console.log(lentTotal);
-        console.log(oweTotal);
-        
-        // Update chart data
         transactionChart.data.datasets[0].data = [lentTotal, oweTotal];
         transactionChart.update();
-    })
-    .catch(error => console.error('Fetch error:', error));
+    });
 }
 
-// Fetch transactions when the page loads
 document.addEventListener('DOMContentLoaded', fetchTransactions);

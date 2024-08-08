@@ -398,7 +398,7 @@ const fetchNotifications = () => {
 };
 
 const markAsRead = (notification) => {
-    fetch(`${API_BASE_URL}/updateNotification?userName=${notification.toName}&isRead=true`)
+    fetch(`${API_BASE_URL}/updateNotification?id=${notification.id}&isRead=true`)
         .then(response => response.json())
         .then(updatedNotification => {
             if (updatedNotification.isRead) {

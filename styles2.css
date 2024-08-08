@@ -89,31 +89,71 @@ canvas {
     width: 100%;
 }
 
-.transactions-section ul {
-    list-style-type: none;
-    padding: 0;
+.transactions-section table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
 }
 
-.transactions-section li {
-    display: flex;
-    justify-content: space-between;
+.transactions-section th, .transactions-section td {
     padding: 10px;
+    text-align: left;
     border-bottom: 1px solid #ddd;
 }
 
-.transactions-section li.lent {
-    background-color: #f8d7da;
+.transactions-section th {
+    background-color: #f0f2f5;
 }
 
-.transactions-section li.owe {
-    background-color: #d4edda;
+.transactions-section .dropdown {
+    position: relative;
+    display: inline-block;
 }
 
-.transactions-section button {
-    background: none;
+.transactions-section .dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 10px;
     border: none;
-    color: #dc3545;
     cursor: pointer;
+    border-radius: 5px;
+}
+
+.transactions-section .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 100px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.transactions-section .dropdown-content a {
+    color: black;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #ddd;
+}
+
+.transactions-section .dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.transactions-section .dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.transactions-section .dropdown:hover .dropbtn {
+    background-color: #45a049;
+}
+
+.transactions-section tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.transactions-section tr:hover {
+    background-color: #ddd;
 }
 
 footer {
@@ -134,5 +174,9 @@ footer {
     main {
         flex-direction: column;
         align-items: center;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
     }
 }

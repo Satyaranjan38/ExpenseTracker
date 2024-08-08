@@ -23,22 +23,37 @@
             <form id="transactionForm">
                 <input type="text" id="personName" placeholder="Person Name" required>
                 <input type="number" id="amount" placeholder="Amount" required>
-                <input type="date" id="expense-date"  required>
-                
+                <input type="date" id="expense-date" required>
                 <select id="transactionType" required>
                     <option value="" disabled selected>Type</option>
                     <option value="lent">Lent</option>
                     <option value="owe">Owe</option>
                 </select>
-                <input type="text" id="reason"  placeholder="Reason(Optional)">
-                <input type="email" id="email" placeholder="Person Email (Optional)" >
+                <input type="text" id="reason" placeholder="Reason (Optional)">
+                <input type="email" id="email" placeholder="Person Email (Optional)">
                 <button type="submit">Add Transaction</button>
             </form>
         </section>
 
         <section class="transactions-section">
             <h2>Transactions</h2>
-            <ul id="transactionsList"></ul>
+            <div class="table-responsive">
+            <table id="transactionsTable">
+                <thead>
+                    <tr>
+                        <th>Person Name</th>
+                        <th>Amount</th>
+                        <th>Type</th>
+                        <th>Reason</th>
+                        <th>Paid</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Transactions will be added here -->
+                </tbody>
+            </table>
+        </div>
         </section>
 
         <section class="chart-section">
