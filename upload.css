@@ -1,60 +1,129 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 40px;
-    padding: 0;
+    font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+    border-radius: 8px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.home-link {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 18px;
 }
 
 h1 {
+    font-size: 28px;
+    margin-top: 0;
     color: #333;
 }
 
-form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    margin: 0 auto;
-}
-
-label {
+.form-label {
     font-weight: bold;
-    display: block;
-    margin-top: 10px;
+    color: #333;
 }
 
-input[type="file"],
-input[type="password"] {
+.form-input {
     width: 100%;
     padding: 8px;
     margin-top: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
     border-radius: 4px;
-    border: 1px solid #ccc;
 }
 
-button {
+.submit-button {
     background-color: #28a745;
     color: white;
-    padding: 10px 15px;
+    padding: 10px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
 }
 
-button:hover {
+.submit-button:hover {
     background-color: #218838;
 }
 
-#downloadLink {
-    display: block;
-    margin-top: 20px;
-    text-decoration: none;
-    color: #007bff;
+.result-container {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 300px; /* Adjust this value for vertical scroll height */
 }
 
-#downloadLink:hover {
-    text-decoration: underline;
+.result-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    min-width: 600px; /* Ensures horizontal scrolling on small screens */
+}
+
+.result-table th, .result-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.result-table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.result-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.total-label {
+    font-weight: bold;
+    text-align: right;
+}
+
+#totalAmount {
+    font-weight: bold;
+    color: #28a745;
+}
+
+/* Responsive design */
+@media only screen and (max-width: 600px) {
+    h1 {
+        font-size: 24px;
+    }
+
+    .form-input {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    .submit-button {
+        width: 100%;
+        padding: 12px;
+        font-size: 18px;
+    }
+
+    .result-table {
+        font-size: 14px;
+    }
+
+    .result-table th, .result-table td {
+        padding: 8px;
+    }
+
+    .result-container {
+        max-height: 200px; /* Adjust for better visibility on mobile */
+    }
 }

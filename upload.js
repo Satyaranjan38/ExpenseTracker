@@ -1,58 +1,62 @@
-
-document.addEventListener('DOMContentLoaded', () =>  {
-document.getElementById('uploadForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    displayUserName();
-    // const API_BASE_URL = "http://localhost:8086";
-    const API_BASE_URL = "https://MovieSearch.cfapps.us10-001.hana.ondemand.com";
-
-    // function displayUserName() {
-    //     const userNameElement = document.getElementById('userName');
-    //     if (userNameElement) {
-    //         userNameElement.textContent = 'Hello, User!';
-    //     } else {
-    //         console.error('Element with ID userName not found');
-    //     }
-    // }
+document.getElementById('uploadForm').addEventListener('submit', function(e) {
+    e.preventDefault();  // Prevent form submission
 
     const fileInput = document.getElementById('fileInput');
+    const passwordInput = document.getElementById('passwordInput');
+    const resultTable = document.getElementById('resultTable');
+    const tableBody = resultTable.querySelector('tbody');
+    const totalAmountCell = document.getElementById('totalAmount');
+
     const file = fileInput.files[0];
-    const password = document.getElementById('passwordInput').value;
-
-    function displayUserName() {
-        const userName = localStorage.getItem('userName');
-        const profileNameElement = document.getElementById('profile-name');
-        profileNameElement.textContent = userName;
-    }
-
-    if (!file) {
-        alert('Please select a PDF file to upload.');
-        return;
-    }
+    const password = passwordInput.value;
 
     const formData = new FormData();
     formData.append('file', file);
     formData.append('password', password);
 
-    fetch(`${API_BASE_URL}/api/upload-pdf`, {
+    fetch('https://imageocr-nsnb.onrender.com/upload', {
         method: 'POST',
         body: formData
     })
     .then(response => response.json())
     .then(data => {
-        if (data.base64Excel) {
-            const downloadLink = document.getElementById('downloadLink');
-            downloadLink.href = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,' + data.base64Excel;
-            downloadLink.download = 'converted.xlsx';
-            downloadLink.style.display = 'block';
-        } else {
-            alert('Failed to convert PDF to Excel. ' + (data.error || ''));
+        tableBody.innerHTML = '';  // Clear previous results
+        let totalAmount = 0;
+
+        if (data.error) {
+            alert(data.error);
+            return;
         }
+
+        data.transactions.forEach(transaction => {
+            const row = document.createElement('tr');
+            
+            const dateCell = document.createElement('td');
+            dateCell.textContent = transaction.date;
+            row.appendChild(dateCell);
+
+            const typeCell = document.createElement('td');
+            typeCell.textContent = transaction.transaction_type;
+            row.appendChild(typeCell);
+
+            const paidToCell = document.createElement('td');
+            paidToCell.textContent = transaction.paid_to;
+            row.appendChild(paidToCell);
+
+            const amountCell = document.createElement('td');
+            amountCell.textContent = transaction.amount;
+            row.appendChild(amountCell);
+
+            totalAmount += parseFloat(transaction.amount.replace(/[^0-9.-]+/g, ""));
+
+            tableBody.appendChild(row);
+        });
+
+        totalAmountCell.textContent = `INR ${totalAmount.toFixed(2)}`;
+        resultTable.style.display = 'table';
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('An error occurred while uploading the PDF.');
+        alert('An error occurred while uploading the file.');
     });
-});
-
 });
