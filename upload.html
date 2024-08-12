@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to Excel Converter</title>
+    <link rel="stylesheet" href="upload.css">
+</head>
+<body>
+
+    <a href="index.html">Home</a>
+    <h1>Upload PDF and Convert to Excel</h1>
+
+    <div id="profile">
+        <div id="profile-name"></div>
+    </div>
+
+    <form id="uploadForm">
+        <label for="fileInput">Select PDF file:</label>
+        <input type="file" id="fileInput" accept=".pdf" required>
+        <br><br>
+        <label for="passwordInput">PDF Password (if any):</label>
+        <input type="password" id="passwordInput" placeholder="Enter password if PDF is protected">
+        <br><br>
+        <button type="submit">Upload and Convert</button>
+    </form>
+
+    <br>
+    <a id="downloadLink" style="display:none;">Download Converted Excel</a>
+
+    <script src="upload.js"></script>
+
+</body>
+</html>

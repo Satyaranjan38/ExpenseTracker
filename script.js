@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayUserName() {
         const userName = localStorage.getItem('userName');
         const profileNameElement = document.getElementById('profile-name');
+        console.log("profileNameElement" + profileNameElement);
         profileNameElement.textContent = userName;
     }
 
