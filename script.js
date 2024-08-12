@@ -317,6 +317,10 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href='lent.html';
     });
 
+    document.getElementById('upload').addEventListener('click', () => {
+        window.location.href='upload.html';
+    });
+
     const filterCategory = document.getElementById('filter-category');
 
     filterCategory.addEventListener('change', () => {
