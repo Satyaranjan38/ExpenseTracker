@@ -254,6 +254,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const months = transactions.map(transaction => transaction.month);
         const amounts = transactions.map(transaction => transaction.amount);
 
+        populatePhonePayTable(data);
+
         // Create a chart using Chart.js
         const myChart = new Chart(ctx, {
             type: 'bar', // Change 'bar' to other chart types like 'line' if needed
@@ -303,6 +305,55 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error fetching the monthly reports:', error);
         alert('An error occurred while fetching the monthly reports.');
     });
+    
+    function populatePhonePayTable(data) {
+        const phonePayTableBody = document.getElementById('phonePayTableBody');
+        phonePayTableBody.innerHTML = ''; // Clear existing rows
+        
+        const monthOrder = {
+            "JANUARY": 1,
+            "FEBRUARY": 2,
+            "MARCH": 3,
+            "APRIL": 4,
+            "MAY": 5,
+            "JUNE": 6,
+            "JULY": 7,
+            "AUGUST": 8,
+            "SEPTEMBER": 9,
+            "OCTOBER": 10,
+            "NOVEMBER": 11,
+            "DECEMBER": 12
+        };
+    
+        // Sort data by month
+        data.sort((a, b) => monthOrder[a.month] - monthOrder[b.month]);
+    
+        let totalAmount = 0;
+    
+        data.forEach(transaction => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${transaction.month}</td>
+                <td>${transaction.year}</td>
+                <td>${transaction.amount.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}</td>
+                <td>${transaction.transactionType}</td>
+            `;
+            phonePayTableBody.appendChild(row);
+    
+            // Add the transaction amount to the total
+            totalAmount += transaction.amount;
+        });
+    
+        // Add a footer row to show the total amount for the year
+        const footerRow = document.createElement('tr');
+        footerRow.innerHTML = `
+            <td colspan="2"><strong>Total for ${data[0].year}</strong></td>
+            <td colspan="2"><strong>${totalAmount.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}</strong></td>
+        `;
+        footerRow.style.fontWeight = 'bold'; // Make the footer row bold
+        phonePayTableBody.appendChild(footerRow);
+    }
+    
     
 
     function updateChart() {

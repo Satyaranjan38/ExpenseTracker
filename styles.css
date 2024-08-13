@@ -295,6 +295,10 @@ tr:nth-child(even) {
     font-weight: bold;
 }
 
+#PhonePay-report-chart{
+    min-height: 100%;
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
     header {
@@ -308,5 +312,9 @@ tr:nth-child(even) {
 
     #report, #budget-report {
         min-width: 100%;
+    }
+
+    #PhonePay-report-chart{
+        min-height: 100%;
     }
 }
