@@ -255,6 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const amounts = transactions.map(transaction => transaction.amount);
 
         populatePhonePayTable(data);
+        populateYearFilter(data) ; 
 
         // Create a chart using Chart.js
         const myChart = new Chart(ctx, {
@@ -309,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function populatePhonePayTable(data) {
         const phonePayTableBody = document.getElementById('phonePayTableBody');
         phonePayTableBody.innerHTML = ''; // Clear existing rows
-        
+    
         const monthOrder = {
             "JANUARY": 1,
             "FEBRUARY": 2,
@@ -325,8 +326,13 @@ document.addEventListener('DOMContentLoaded', () => {
             "DECEMBER": 12
         };
     
-        // Sort data by month
-        data.sort((a, b) => monthOrder[a.month] - monthOrder[b.month]);
+        // Sort data by year in descending order and then by month in ascending order
+        data.sort((a, b) => {
+            if (b.year === a.year) {
+                return monthOrder[a.month] - monthOrder[b.month];
+            }
+            return b.year - a.year;
+        });
     
         let totalAmount = 0;
     
@@ -347,12 +353,36 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add a footer row to show the total amount for the year
         const footerRow = document.createElement('tr');
         footerRow.innerHTML = `
-            <td colspan="2"><strong>Total for ${data[0].year}</strong></td>
+            <td colspan="2"><strong>Total</strong></td>
             <td colspan="2"><strong>${totalAmount.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}</strong></td>
         `;
         footerRow.style.fontWeight = 'bold'; // Make the footer row bold
         phonePayTableBody.appendChild(footerRow);
     }
+    
+    function populateYearFilter(data) {
+        const yearFilter = document.getElementById('yearFilter');
+        const years = [...new Set(data.map(transaction => transaction.year))]; // Get unique years
+    
+        // Clear existing options
+        yearFilter.innerHTML = '<option value="">All Years</option>';
+    
+        // Populate dropdown with years
+        years.forEach(year => {
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = year;
+            yearFilter.appendChild(option);
+        });
+    
+        // Add event listener to filter data based on selected year
+        yearFilter.addEventListener('change', () => {
+            const selectedYear = yearFilter.value;
+            const filteredData = selectedYear ? data.filter(transaction => transaction.year == selectedYear) : data;
+            populatePhonePayTable(filteredData);
+        });
+    }
+    
     
     
 

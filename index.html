@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body>
     <header>
         <div class="logo">Expense Tracker</div>
@@ -23,7 +25,7 @@
         <button id="lent" type="submit">Check Lent </button>
         <button id="upload" type="submit">Upload Phone Pay Transaction </button>
         <div id="total-expense">Total Expense: $0.00</div>
-        
+
         <section id="add-expense">
             <h2>Add Expense</h2>
             <form id="expense-form">
@@ -45,38 +47,38 @@
         <section id="expense-list">
             <h2>Expense List</h2>
             <div class="table-responsive">
-            <table id="expensesTable">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>
-                            Amount
-                            <!-- <button id="sort-amount-asc">↑</button>
+                <table id="expensesTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>
+                                Amount
+                                <!-- <button id="sort-amount-asc">↑</button>
                             <button id="sort-amount-desc">↓</button> -->
-                        </th>
-                        <th>
-                            Date
-                            <!-- <button id="sort-date-asc">↑</button>
+                            </th>
+                            <th>
+                                Date
+                                <!-- <button id="sort-date-asc">↑</button>
                             <button id="sort-date-desc">↓</button> -->
-                        </th>
-                        <th>
-                            Category
-                            <select id="filter-category">
-                                <option value="">All</option>
-                                <option value="food">Food</option>
-                                <option value="transportation">Transportation</option>
-                                <option value="entertainment">Entertainment</option>
-                                <option value="utilities">Utilities</option>
-                                <option value="others">Others</option>
-                            </select>
-                        </th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="expensesTableBody">
-                    <!-- Table rows will be dynamically loaded here -->
-                </tbody>
-            </table>
+                            </th>
+                            <th>
+                                Category
+                                <select id="filter-category">
+                                    <option value="">All</option>
+                                    <option value="food">Food</option>
+                                    <option value="transportation">Transportation</option>
+                                    <option value="entertainment">Entertainment</option>
+                                    <option value="utilities">Utilities</option>
+                                    <option value="others">Others</option>
+                                </select>
+                            </th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expensesTableBody">
+                        <!-- Table rows will be dynamically loaded here -->
+                    </tbody>
+                </table>
             </div>
             <div id="totalExpense"></div>
         </section>
@@ -92,52 +94,60 @@
         </section>
 
         <div id="charts-wrapper">
-        <section id="report">
-            <h2>Expense Report</h2>
-            <!-- <button id="view-current-month">View Current Month Expenses</button> -->
-            <button id="view-monthly">View Monthly Expenses</button>
-            <canvas id="expense-chart"></canvas>
-            
-            <!-- <canvas id="current-month-chart"></canvas> -->
-        </section>
+            <section id="report">
+                <h2>Expense Report</h2>
+                <!-- <button id="view-current-month">View Current Month Expenses</button> -->
+                <button id="view-monthly">View Monthly Expenses</button>
+                <canvas id="expense-chart"></canvas>
 
-        <section id="Budget-report">
-            <h2>Budget Report</h2>
-            <!-- <button id="view-current-month">View Current Month Expenses</button> -->
-            
-            
-            <canvas id="Budget-report-chart"></canvas>
-        </section>
+                <!-- <canvas id="current-month-chart"></canvas> -->
+            </section>
 
-       
+            <section id="Budget-report">
+                <h2>Budget Report</h2>
+                <!-- <button id="view-current-month">View Current Month Expenses</button> -->
+
+
+                <canvas id="Budget-report-chart"></canvas>
+            </section>
+
+
+
+
+        </div>
+        <section id="PhonePay-report">
+            <h2>PhonePay Report</h2>
+            <div>
+                <label for="yearFilter">Filter by Year: </label>
+                <select id="yearFilter">
+                    <option value="">All Years</option>
+                    <!-- Year options will be dynamically populated here -->
+                </select>
+            </div>
+            <div class="table-responsive">
+                <table id="phonePayTable">
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Year</th>
+                            <th>Amount (INR)</th>
+                            <th>Transaction Type</th>
+                        </tr>
+                    </thead>
+                    <tbody id="phonePayTableBody">
+                        <!-- Table rows will be dynamically populated here -->
+                    </tbody>
+                </table>
+            </div>
+            <canvas id="PhonePay-report-chart"></canvas>
+        </section>
         
 
-    </div>
-    <section id="PhonePay-report">
-        <h2>PhonePay Report</h2>
-        <div class="table-responsive">
-            <table id="phonePayTable">
-                <thead>
-                    <tr>
-                        <th>Month</th>
-                        <th>Year</th>
-                        <th>Amount (INR)</th>
-                        <th>Transaction Type</th>
-                    </tr>
-                </thead>
-                <tbody id="phonePayTableBody">
-                    <!-- Table rows will be dynamically populated here -->
-                </tbody>
-            </table>
-        </div>
-        <canvas id="PhonePay-report-chart"></canvas>
-    </section>
 
 
 
-    
 
-    
+
 
 
         <div id="notification-modal" class="modal">
@@ -156,4 +166,5 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>
