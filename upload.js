@@ -6,6 +6,7 @@ document.getElementById('uploadForm').addEventListener('submit', function(e) {
     const resultTable = document.getElementById('resultTable');
     const tableBody = resultTable.querySelector('tbody');
     const totalAmountCell = document.getElementById('totalAmount');
+    const totalDebit = document.getElementById('total-debit');
 
     const file = fileInput.files[0];
     const password = passwordInput.value;
@@ -53,10 +54,33 @@ document.getElementById('uploadForm').addEventListener('submit', function(e) {
         });
 
         totalAmountCell.textContent = `INR ${totalAmount.toFixed(2)}`;
+        totalDebit.textContent = `Total Debit INR ${totalAmount.toFixed(2)}`;
         resultTable.style.display = 'table';
+
+        saveDataInBackend(file, password); // Call saveDataInBackend with file and password
     })
     .catch(error => {
         console.error('Error:', error);
         alert('An error occurred while uploading the file.');
     });
 });
+
+function saveDataInBackend(file, password) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('password', password);
+    const userName = localStorage.getItem('userName');
+
+    fetch(`https://MovieSearch.cfapps.us10-001.hana.ondemand.com/api/upload/${userName}`, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Data saved successfully:', data);
+    })
+    .catch(error => {
+        console.error('Error saving data to backend:', error);
+        alert('An error occurred while saving data to the backend.');
+    });
+}

@@ -237,6 +237,72 @@ document.addEventListener('DOMContentLoaded', () => {
                 .catch(error => console.error('Error fetching monthly expenses:', error))
         };
     }
+    const ctx = document.getElementById('PhonePay-report-chart').getContext('2d');
+
+    fetch('https://MovieSearch.cfapps.us10-001.hana.ondemand.com/api/getPhonePayMonthlyReports/satyaranjanparida038@gmail.com')
+    .then(response => response.json())
+    .then(data => {
+        // Define an array to maintain the correct month order
+        const monthOrder = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+        
+        // Process the response to extract and sort months, amounts, and transaction types
+        const transactions = data.filter(transaction => transaction.year === new Date().getFullYear().toString());
+
+        // Sort transactions by month order
+        transactions.sort((a, b) => monthOrder.indexOf(a.month) - monthOrder.indexOf(b.month));
+
+        const months = transactions.map(transaction => transaction.month);
+        const amounts = transactions.map(transaction => transaction.amount);
+
+        // Create a chart using Chart.js
+        const myChart = new Chart(ctx, {
+            type: 'bar', // Change 'bar' to other chart types like 'line' if needed
+            data: {
+                labels: months,
+                datasets: [{
+                    label: 'Amount (INR)',
+                    data: amounts,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Amount (INR)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Month'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Monthly Expenses for Current Year'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return `${tooltipItem.dataset.label}: INR ${tooltipItem.raw}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching the monthly reports:', error);
+        alert('An error occurred while fetching the monthly reports.');
+    });
     
 
     function updateChart() {
