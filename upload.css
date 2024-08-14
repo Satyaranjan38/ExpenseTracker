@@ -1,6 +1,8 @@
+/* Global Styles */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Orbitron', sans-serif; /* Futuristic Font */
+    background-color: #0d1b2a; /* Dark ocean blue */
+    color: #e0e1dd; /* Light gray for contrast */
     margin: 0;
     padding: 0;
 }
@@ -9,10 +11,12 @@ body {
     width: 90%;
     margin: 0 auto;
     padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: rgba(13, 27, 42, 0.9); /* Semi-transparent background for a glassy effect */
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3); /* Futuristic glowing shadow */
     margin-top: 50px;
-    border-radius: 8px;
+    border-radius: 15px;
+    border: 2px solid #29a19c; /* Teal border for a futuristic touch */
+    animation: fadeIn 1s ease-in-out;
 }
 
 header {
@@ -22,82 +26,102 @@ header {
 
 .home-link {
     text-decoration: none;
-    color: #007bff;
+    color: #29a19c;
     font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.home-link:hover {
+    color: #e63946; /* Pirate-themed crimson red */
 }
 
 h1 {
-    font-size: 28px;
+    font-size: 32px;
     margin-top: 0;
-    color: #333;
+    color: #f7c59f; /* Warm beige to match pirate theme */
+    text-shadow: 0 0 10px #ff005e; /* Neon glow effect */
 }
 
 .form-label {
     font-weight: bold;
-    color: #333;
+    color: #f7c59f;
 }
 
 .form-input {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     margin-top: 5px;
     margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border: 1px solid #29a19c;
+    border-radius: 8px;
+    background-color: #1e3a5f; /* Darker blue for input fields */
+    color: #e0e1dd;
+    font-family: 'Orbitron', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    border-color: #e63946;
+    background-color: #0d1b2a;
 }
 
 .submit-button {
-    background-color: #28a745;
-    color: white;
-    padding: 10px 20px;
+    background-color: #29a19c;
+    color: #e0e1dd;
+    padding: 12px 24px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 18px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .submit-button:hover {
-    background-color: #218838;
+    background-color: #e63946;
+    transform: scale(1.05);
 }
 
 .result-container {
     overflow-x: auto;
     overflow-y: auto;
-    max-height: 300px; /* Adjust this value for vertical scroll height */
+    max-height: 300px; 
 }
 
 .result-table {
     width: 100%;
     margin-top: 20px;
     border-collapse: collapse;
-    min-width: 600px; /* Ensures horizontal scrolling on small screens */
+    min-width: 600px; 
+    background-color: #1e3a5f;
 }
 
 .result-table th, .result-table td {
-    padding: 12px;
+    padding: 15px;
     text-align: left;
-    border: 1px solid #ddd;
+    border: 1px solid #29a19c;
+    color: #f7c59f;
 }
 
 .result-table th {
-    background-color: #007bff;
-    color: white;
+    background-color: #29a19c;
+    color: #0d1b2a;
 }
 
 .result-table tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #0d1b2a;
 }
 
 .total-label {
     font-weight: bold;
     text-align: right;
+    color: #f7c59f;
 }
 
 #totalAmount {
     font-weight: bold;
-    color: #28a745;
+    color: #ff0033; /* Futuristic red for total amount */
 }
-
 
 /* Loader Styles */
 .loader {
@@ -106,7 +130,7 @@ h1 {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -123,7 +147,7 @@ h1 {
 .loader .dot1, .loader .dot2, .loader .dot3 {
     width: 15px;
     height: 15px;
-    background-color: #3498db;
+    background-color: #29a19c;
     border-radius: 50%;
     margin: 0 5px;
     animation: bounce 1.2s infinite ease-in-out;
@@ -153,13 +177,13 @@ h1 {
     }
 
     .form-input {
-        padding: 8px;
+        padding: 10px;
         font-size: 14px;
     }
 
     .submit-button {
         width: 100%;
-        padding: 12px;
+        padding: 15px;
         font-size: 18px;
     }
 
@@ -168,10 +192,28 @@ h1 {
     }
 
     .result-table th, .result-table td {
-        padding: 8px;
+        padding: 10px;
     }
 
     .result-container {
-        max-height: 200px; /* Adjust for better visibility on mobile */
+        max-height: 200px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes neonGlow {
+    0% {
+        text-shadow: 0 0 5px #ff005e, 0 0 10px #ff005e, 0 0 20px #ff005e, 0 0 40px #ff005e, 0 0 80px #ff005e;
+    }
+    50% {
+        text-shadow: 0 0 10px #ff005e, 0 0 20px #ff005e, 0 0 40px #ff005e, 0 0 80px #ff005e, 0 0 160px #ff005e;
+    }
+    100% {
+        text-shadow: 0 0 5px #ff005e, 0 0 10px #ff005e, 0 0 20px #ff005e, 0 0 40px #ff005e, 0 0 80px #ff005e;
     }
 }
