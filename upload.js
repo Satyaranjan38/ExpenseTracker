@@ -41,7 +41,7 @@ document.getElementById('uploadForm').addEventListener('submit', function(e) {
             row.appendChild(typeCell);
 
             const paidToCell = document.createElement('td');
-            paidToCell.textContent = transaction.paid_to;
+            paidToCell.textContent = transaction.party;
             row.appendChild(paidToCell);
 
             const amountCell = document.createElement('td');
