@@ -1,4 +1,4 @@
-document.getElementById('uploadForm').addEventListener('submit', function(e) {
+document.getElementById('uploadForm').addEventListener('submit', function (e) {
     e.preventDefault();  // Prevent form submission
 
     const fileInput = document.getElementById('fileInput');
@@ -15,54 +15,57 @@ document.getElementById('uploadForm').addEventListener('submit', function(e) {
     formData.append('file', file);
     formData.append('password', password);
 
+    showLoader();
     fetch('https://imageocr-nsnb.onrender.com/upload', {
         method: 'POST',
         body: formData
     })
-    .then(response => response.json())
-    .then(data => {
-        tableBody.innerHTML = '';  // Clear previous results
-        let totalAmount = 0;
+        .then(response => response.json())
+        .then(data => {
+            tableBody.innerHTML = '';  // Clear previous results
+            let totalAmount = 0;
 
-        if (data.error) {
-            alert(data.error);
-            return;
-        }
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
 
-        data.transactions.forEach(transaction => {
-            const row = document.createElement('tr');
-            
-            const dateCell = document.createElement('td');
-            dateCell.textContent = transaction.date;
-            row.appendChild(dateCell);
+            data.transactions.forEach(transaction => {
+                const row = document.createElement('tr');
 
-            const typeCell = document.createElement('td');
-            typeCell.textContent = transaction.transaction_type;
-            row.appendChild(typeCell);
+                const dateCell = document.createElement('td');
+                dateCell.textContent = transaction.date;
+                row.appendChild(dateCell);
 
-            const paidToCell = document.createElement('td');
-            paidToCell.textContent = transaction.party;
-            row.appendChild(paidToCell);
+                const typeCell = document.createElement('td');
+                typeCell.textContent = transaction.transaction_type;
+                row.appendChild(typeCell);
 
-            const amountCell = document.createElement('td');
-            amountCell.textContent = transaction.amount;
-            row.appendChild(amountCell);
+                const paidToCell = document.createElement('td');
+                paidToCell.textContent = transaction.party;
+                row.appendChild(paidToCell);
 
-            totalAmount += parseFloat(transaction.amount.replace(/[^0-9.-]+/g, ""));
+                const amountCell = document.createElement('td');
+                amountCell.textContent = transaction.amount;
+                row.appendChild(amountCell);
 
-            tableBody.appendChild(row);
+                totalAmount += parseFloat(transaction.amount.replace(/[^0-9.-]+/g, ""));
+
+                tableBody.appendChild(row);
+            });
+
+            totalAmountCell.textContent = `INR ${totalAmount.toFixed(2)}`;
+            totalDebit.textContent = `Total Debit INR ${totalAmount.toFixed(2)}`;
+            resultTable.style.display = 'table';
+
+            hideLoader();
+
+            saveDataInBackend(file, password); // Call saveDataInBackend with file and password
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while uploading the file.');
         });
-
-        totalAmountCell.textContent = `INR ${totalAmount.toFixed(2)}`;
-        totalDebit.textContent = `Total Debit INR ${totalAmount.toFixed(2)}`;
-        resultTable.style.display = 'table';
-
-        saveDataInBackend(file, password); // Call saveDataInBackend with file and password
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred while uploading the file.');
-    });
 });
 
 function saveDataInBackend(file, password) {
@@ -75,12 +78,27 @@ function saveDataInBackend(file, password) {
         method: 'POST',
         body: formData
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Data saved successfully:', data);
-    })
-    .catch(error => {
-        console.error('Error saving data to backend:', error);
-        alert('An error occurred while saving data to the backend.');
-    });
+        .then(response => response.json())
+        .then(data => {
+            console.log('Data saved successfully:', data);
+        })
+        .catch(error => {
+            console.error('Error saving data to backend:', error);
+            alert('An error occurred while saving data to the backend.');
+        });
 }
+
+
+function showLoader() {
+    const loader = document.getElementById('loader');
+    loader.classList.add('active');
+    loader.style.display = 'flex';
+}
+
+// Function to hide the loader
+function hideLoader() {
+    const loader = document.getElementById('loader');
+    loader.classList.remove('active');
+    loader.style.display = 'none';
+}
+
