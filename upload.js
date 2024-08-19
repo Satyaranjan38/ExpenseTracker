@@ -14,6 +14,7 @@ document.getElementById('uploadForm').addEventListener('submit', function (e) {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('password', password);
+    formData.append('userName' , localStorage.getItem('userName'))
 
     showLoader();
     fetch('https://imageocr-nsnb.onrender.com/upload', {
