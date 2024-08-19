@@ -238,8 +238,8 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
     const ctx = document.getElementById('PhonePay-report-chart').getContext('2d');
-
-    fetch('https://MovieSearch.cfapps.us10-001.hana.ondemand.com/api/getPhonePayMonthlyReports/satyaranjanparida038@gmail.com')
+    const userName = localStorage.getItem('userName');
+    fetch(`https://MovieSearch.cfapps.us10-001.hana.ondemand.com/api/getPhonePayMonthlyReports/${userName}`)
     .then(response => response.json())
     .then(data => {
         // Define an array to maintain the correct month order
