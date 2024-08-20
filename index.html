@@ -117,6 +117,8 @@
         </div>
         <section id="PhonePay-report">
             <h2>PhonePay Report</h2>
+
+
             <div>
                 <label for="yearFilter">Filter by Year: </label>
                 <select id="yearFilter">
@@ -139,9 +141,13 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- <button id="downloadPdf">Download PDF</button> -->
+            <button id="downloadExcel">Download Excel</button>
+
             <canvas id="PhonePay-report-chart"></canvas>
         </section>
-        
+
 
 
 
@@ -164,6 +170,9 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+
     <script src="script.js"></script>
 </body>
 

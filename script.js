@@ -1,6 +1,11 @@
 
+let data = [];
+let totalDebit = 0;
+let totalCredit = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
+
+
     checkAuthorization() ; 
     displayUserName();
      
@@ -307,7 +312,8 @@ document.addEventListener('DOMContentLoaded', () => {
         alert('An error occurred while fetching the monthly reports.');
     });
     
-    function populatePhonePayTable(data) {
+    function populatePhonePayTable(transactionData) {
+        data = transactionData;
         const phonePayTableBody = document.getElementById('phonePayTableBody');
         phonePayTableBody.innerHTML = ''; // Clear existing rows
     
@@ -372,6 +378,61 @@ document.addEventListener('DOMContentLoaded', () => {
         creditFooterRow.style.fontWeight = 'bold';
         phonePayTableBody.appendChild(creditFooterRow);
     }
+
+
+    // Function to download table data as PDF
+// function downloadPDF() {
+//     const { jsPDF } = window.jspdf;
+//     const doc = new jsPDF();
+
+//     let yPosition = 10; // Starting y position for text
+
+//     const headers = [["Month", "Year", "Amount", "Transaction Type"]];
+
+//     const rows = [];
+//     data.forEach(transaction => {
+//         rows.push([transaction.month, transaction.year, transaction.amount.toLocaleString('en-IN', { style: 'currency', currency: 'INR' }), transaction.transactionType]);
+//     });
+
+//     // Adding Total Debit and Credit to the rows
+//     rows.push(["", "", "Total Debit", totalDebit.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })]);
+//     rows.push(["", "", "Total Credit", totalCredit.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })]);
+
+//     doc.text("PhonePay Transactions", 14, yPosition);
+//     doc.autoTable({
+//         startY: yPosition + 10,
+//         head: headers,
+//         body: rows,
+//     });
+
+//     doc.save("PhonePay_Transactions.pdf");
+// }
+
+// Function to download table data as Excel
+function downloadExcel() {
+    const wb = XLSX.utils.book_new();
+    const wsData = [
+        ["Month", "Year", "Amount", "Transaction Type"]
+    ];
+
+    data.forEach(transaction => {
+        wsData.push([transaction.month, transaction.year, transaction.amount.toLocaleString('en-IN', { style: 'currency', currency: 'INR' }), transaction.transactionType]);
+    });
+
+    // Adding Total Debit and Credit to the worksheet data
+    wsData.push(["", "", "Total Debit", totalDebit.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })]);
+    wsData.push(["", "", "Total Credit", totalCredit.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })]);
+
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
+    XLSX.utils.book_append_sheet(wb, ws, "PhonePay Transactions");
+
+    XLSX.writeFile(wb, "PhonePay_Transactions.xlsx");
+}
+
+// Add event listeners to the buttons
+// document.getElementById('downloadPdf').addEventListener('click', downloadPDF);
+document.getElementById('downloadExcel').addEventListener('click', downloadExcel);
+
     
     
     function populateYearFilter(data) {
