@@ -77,48 +77,136 @@ document.addEventListener('DOMContentLoaded', () => {
         profileNameElement.textContent = userName;
     }
 
-    function displayExpenses() {
-        const userName = localStorage.getItem('userName');
-        fetch(`${API_BASE_URL}/expense/current-month/${userName}`)
-            .then(response => response.json())
-            .then(expenses => {
-                const expensesTableBody = document.getElementById('expensesTableBody');
-                const totalExpenseElement = document.getElementById('total-expense');
-                
-                expensesTableBody.innerHTML = '';
-                let totalExpense = 0;
-                
-                expenses.forEach(expense => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${expense.name}</td>
-                        <td>${expense.amount.toFixed(2)}</td>
-                        <td>${expense.date}</td>
-                        <td>${expense.catagory}</td>
-                        <td><button onclick="deleteExpense(${expense.id})">Delete</button></td>
-                    `;
-                    expensesTableBody.appendChild(row);
-                    totalExpense += expense.amount;
-                });
-                
-                totalExpenseElement.textContent = `Total Expense: ${totalExpense.toFixed(2)}`;
-            })
-            .catch(error => console.error('Error fetching expenses:', error));
+    // Function to create a dropdown element for category selection
+function createCategoryDropdown(selectedCategory) {
+    const categories = [
+        { value: 'food', text: 'Food' },
+        { value: 'transportation', text: 'Transportation' },
+        { value: 'entertainment', text: 'Entertainment' },
+        { value: 'utilities', text: 'Utilities' },
+        { value: 'others', text: 'Others' }
+    ];
+
+    const select = document.createElement('select');
+    select.className = 'category-dropdown';
+    select.style.display = 'inline-block'; // Adjust styling as needed
+
+    categories.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat.value;
+        option.textContent = cat.text;
+        if (cat.value === selectedCategory) {
+            option.selected = true;
+        }
+        select.appendChild(option);
+    });
+
+    return select;
+}
+
+// Function to handle the update
+function showUpdateDropdown(event) {
+    const row = event.target.closest('tr');
+    console.log("row is " + row) ; 
+    const id = row.dataset.id; // Get the expense ID from the row
+    console.log("id is " + id) ; 
+
+    // Check if dropdown already exists to avoid duplicates
+    if (row.querySelector('.category-dropdown')) {
+        return; // Dropdown already present, do nothing
     }
 
-    window.deleteExpense = (id) => {
-        if (confirm("Are you sure you want to delete this expense?")) {
-            fetch(`${API_BASE_URL}/expense/${id}`, {
-                method: 'DELETE',
-            })
-            .then(() => {
-                // filterExpenses();
-                displayExpenses();
-                updateChart();
-            })
-            .catch(error => console.error('Error deleting expense:', error));
-        }
-    };
+    // Create the dropdown and add it to the row
+    const currentCategory = row.querySelector('td:nth-child(4)').textContent.trim();
+    const dropdown = createCategoryDropdown(currentCategory);
+    console.log("select dropdown " + dropdown.value);
+    const updateButton = document.createElement('button');
+    updateButton.textContent = 'Update';
+    updateButton.onclick = () => updateExpense(id, dropdown.value);
+
+    const actionsCell = row.querySelector('td:nth-child(5)');
+    actionsCell.innerHTML = ''; // Clear existing content
+    actionsCell.appendChild(dropdown);
+    actionsCell.appendChild(updateButton);
+}
+
+// Function to handle the category update
+function updateExpense(id, newCategory) {
+    fetch(`https://imageocr-nsnb.onrender.com/update-category/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            category: newCategory
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Refresh the expense list and update the chart
+        displayExpenses();
+        updateChart();
+        alert("Expense updated successfully!");
+    })
+    .catch(error => console.error('Error updating expense:', error));
+}
+
+// Attach event listener to the actions column buttons
+function attachUpdateListeners() {
+    const actionButtons = document.querySelectorAll('#expensesTable .update-btn');
+    actionButtons.forEach(button => {
+        button.addEventListener('click', showUpdateDropdown);
+    });
+}
+
+// Update displayExpenses function to include the new "Update" button
+function displayExpenses() {
+    const userName = localStorage.getItem('userName');
+    fetch(`https://imageocr-nsnb.onrender.com/get-current-month-transactions/${userName}`)
+        .then(response => response.json())
+        .then(expenses => {
+            const expensesTableBody = document.getElementById('expensesTableBody');
+            const totalExpenseElement = document.getElementById('totalExpense');
+            
+            expensesTableBody.innerHTML = '';
+            let totalExpense = 0;
+            
+            expenses.forEach(expense => {
+                const row = document.createElement('tr');
+                row.dataset.id = expense._id; // Set the expense ID in the row data attribute
+                row.innerHTML = `
+                    <td>${expense.party}</td>
+                    <td>${expense.amount.toFixed(2)}</td>
+                    <td>${expense.date}</td>
+                    <td>${expense.category}</td>
+                    <td>
+                        <button class="update-btn">Update Category</button>
+                    </td>
+                `;
+                expensesTableBody.appendChild(row);
+                totalExpense += expense.amount;
+            });
+            
+            totalExpenseElement.textContent = `Total Expense: ${totalExpense.toFixed(2)}`;
+            attachUpdateListeners(); // Re-attach listeners to newly created buttons
+        })
+        .catch(error => console.error('Error fetching expenses:', error));
+}
+
+
+    // window.updateExpense = (id) => {
+    //     if (confirm("Are you sure you want to delete this expense?")) {
+    //         fetch(`${API_BASE_URL}/expense/${id}`, {
+    //             method: 'DELETE',
+    //         })
+    //         .then(() => {
+    //             // filterExpenses();
+    //             displayExpenses();
+    //             updateChart();
+    //         })
+    //         .catch(error => console.error('Error deleting expense:', error));
+    //     }
+    // };
 
     function setBudget() {
         const budgetAmount = parseFloat(document.getElementById('budget-amount').value);
