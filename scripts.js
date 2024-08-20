@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded',async function() {
         hideLoader() ; 
     });
 
-    const API_BASE_URL = 'https://MovieSearch.cfapps.us10-001.hana.ondemand.com'; // Replace with your backend base URL
+    const API_BASE_URL = 'https://imageocr-nsnb.onrender.com'; // Replace with your backend base URL
     const CLIENT_ID = 'sb-na-3763d269-8272-4902-8ea4-21723882f1c7!t308628'; // Replace with your XSUAA client ID
     const CLIENT_SECRET = 'PoDxFeCXfWYmlfluThhpUUd6Uwo='; // Replace with your XSUAA client secret
     const TOKEN_URL = 'https://cee938d6trial.authentication.us10.hana.ondemand.com/oauth/token'; // Replace with your XSUAA token URL
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded',async function() {
                 // 'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify({
-                name: email,
+                userName: email,
                 password: password
             })
         })
@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded',async function() {
                 // 'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify({
-                name: email,
+                userName: email,
                 password: password
             })
         })
@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded',async function() {
         .then(data => {
             hideLoader();
             console.log(data); // Handle success or display message to user
-            if (data.message === 'sign up sucessfully') {
+            if (data.message === 'Sign up successfully') {
                 showLoginPage(); // After successful verification, show login page
             }
         })
@@ -245,14 +245,14 @@ document.addEventListener('DOMContentLoaded',async function() {
                 // 'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify({
-                name: email,
+                userName: email,
                 password: password
             })
         })
         .then(response => response.json())
         .then(data => {
             console.log(data); // Handle success or display message to user
-            if (data.message === 'login successfully') {
+            if (data.message === 'Login successful') {
                 // setCookie('accessToken', accessToken, 120);
                 localStorage.setItem('userName', email);
                 hideLoader();
