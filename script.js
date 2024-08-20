@@ -54,12 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function checkAuthorization() {
         console.log("checking authorization");
-        const accessToken = localStorage.getItem('oauthToken');
+        // const accessToken = localStorage.getItem('oauthToken');
         const userName = localStorage.getItem('userName');
         console.log("user name " + userName);
         console.log("user login success ");
         
-        if (!accessToken || !userName) {
+        if (!userName) {
             
              window.location.href = 'login.html';
         }
@@ -334,7 +334,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return b.year - a.year;
         });
     
-        let totalAmount = 0;
+        let totalDebit = 0;
+        let totalCredit = 0;
     
         data.forEach(transaction => {
             const row = document.createElement('tr');
@@ -346,19 +347,32 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             phonePayTableBody.appendChild(row);
     
-            // Add the transaction amount to the total
-            totalAmount += transaction.amount;
+            // Add the transaction amount to the respective total
+            if (transaction.transactionType === 'Debit') {
+                totalDebit += transaction.amount;
+            } else if (transaction.transactionType === 'Credit') {
+                totalCredit += transaction.amount;
+            }
         });
     
-        // Add a footer row to show the total amount for the year
-        const footerRow = document.createElement('tr');
-        footerRow.innerHTML = `
-            <td colspan="2"><strong>Total</strong></td>
-            <td colspan="2"><strong>${totalAmount.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}</strong></td>
+        // Add footer rows to show the total debit and credit amounts
+        const debitFooterRow = document.createElement('tr');
+        debitFooterRow.innerHTML = `
+            <td colspan="2"><strong>Total Debit</strong></td>
+            <td colspan="2"><strong>${totalDebit.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}</strong></td>
         `;
-        footerRow.style.fontWeight = 'bold'; // Make the footer row bold
-        phonePayTableBody.appendChild(footerRow);
+        debitFooterRow.style.fontWeight = 'bold';
+        phonePayTableBody.appendChild(debitFooterRow);
+    
+        const creditFooterRow = document.createElement('tr');
+        creditFooterRow.innerHTML = `
+            <td colspan="2"><strong>Total Credit</strong></td>
+            <td colspan="2"><strong>${totalCredit.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}</strong></td>
+        `;
+        creditFooterRow.style.fontWeight = 'bold';
+        phonePayTableBody.appendChild(creditFooterRow);
     }
+    
     
     function populateYearFilter(data) {
         const yearFilter = document.getElementById('yearFilter');

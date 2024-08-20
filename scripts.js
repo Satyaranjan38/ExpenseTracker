@@ -40,28 +40,32 @@ document.addEventListener('DOMContentLoaded',async function() {
 
     let accessToken = localStorage.getItem('oauthToken') // Get the token from localstorage 
 
-    if (!accessToken) {
-
-        console.log("access token " +accessToken ) ; 
-        // clearCookiesAndLocalStorage();
-        // console.log("not authorized ") ; 
-        await fetchAccessToken() ; 
-        
+    if(localStorage.getItem('userName')){
+        redirectToMovieSearch() ; 
     }
 
-    const isAuthorized = await checkAuthorization(demoApiUrl);
+    // if (!accessToken) {
+
+    //     console.log("access token " +accessToken ) ; 
+    //     // clearCookiesAndLocalStorage();
+    //     // console.log("not authorized ") ; 
+    //     await fetchAccessToken() ; 
+        
+    // }
+
+    // const isAuthorized = await checkAuthorization(demoApiUrl);
 
     // if(isAuthorized){
     //     redirectToMovieSearch();
     // }
     
 
-    if (!isAuthorized) {
-        clearCookiesAndLocalStorage();
-        console.log("not authorized ") ; 
-        await fetchAccessToken() ; 
+    // if (!isAuthorized) {
+    //     clearCookiesAndLocalStorage();
+    //     console.log("not authorized ") ; 
+    //     await fetchAccessToken() ; 
         
-    }
+    // }
 
     async function checkAuthorization(url) {
         const token = localStorage.getItem('oauthToken');
@@ -155,7 +159,7 @@ document.addEventListener('DOMContentLoaded',async function() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`
+                // 'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify({
                 name: email,
@@ -207,7 +211,7 @@ document.addEventListener('DOMContentLoaded',async function() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`
+                // 'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify({
                 name: email,
@@ -238,7 +242,7 @@ document.addEventListener('DOMContentLoaded',async function() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`
+                // 'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify({
                 name: email,
@@ -249,7 +253,7 @@ document.addEventListener('DOMContentLoaded',async function() {
         .then(data => {
             console.log(data); // Handle success or display message to user
             if (data.message === 'login successfully') {
-                setCookie('accessToken', accessToken, 120);
+                // setCookie('accessToken', accessToken, 120);
                 localStorage.setItem('userName', email);
                 hideLoader();
                 redirectToMovieSearch(); // After successful login, redirect to MovieSearch
