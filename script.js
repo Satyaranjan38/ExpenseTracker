@@ -167,6 +167,7 @@ function displayExpenses() {
         .then(expenses => {
             const expensesTableBody = document.getElementById('expensesTableBody');
             const totalExpenseElement = document.getElementById('totalExpense');
+            const totalExpenseHeader = document.getElementById('total-expense') ; 
             
             expensesTableBody.innerHTML = '';
             let totalExpense = 0;
@@ -188,6 +189,7 @@ function displayExpenses() {
             });
             
             totalExpenseElement.textContent = `Total Expense: ${totalExpense.toFixed(2)}`;
+            totalExpenseHeader.textContent = `Total Expense: ${totalExpense.toFixed(2)}`;
             attachUpdateListeners(); // Re-attach listeners to newly created buttons
         })
         .catch(error => console.error('Error fetching expenses:', error));
