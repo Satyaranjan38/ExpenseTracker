@@ -70,6 +70,14 @@
                                     <option value="others">Others</option>
                                 </select>
                             </th>
+                            <th>
+                                Transaction Type
+                                <select id="filter-transaction-type">
+                                    <option value="">All</option>
+                                    <option value="Debit">Debit</option>
+                                    <option value="Credit">Credit</option>
+                                </select>
+                            </th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -77,11 +85,14 @@
                         <!-- Table rows will be dynamically loaded here -->
                     </tbody>
                 </table>
-                
             </div>
-            <div id="totalExpense">Total Expense: 0.00</div>
+            <div id="totalDebit">Total Debit: INR 0.00</div>
+            <div id="totalCredit">Total Credit: INR 0.00</div>
         </section>
         
+
+
+
         <button id="download-pdf">Download PDF</button>
 
 

@@ -3,6 +3,7 @@ document.getElementById('uploadForm').addEventListener('submit', function (e) {
 
     const fileInput = document.getElementById('fileInput');
     const passwordInput = document.getElementById('passwordInput');
+    const deviceSelect = document.getElementById('deviceSelect');
     const resultTable = document.getElementById('resultTable');
     const tableBody = resultTable.querySelector('tbody');
     const totalAmountCell = document.getElementById('totalAmount');
@@ -10,11 +11,18 @@ document.getElementById('uploadForm').addEventListener('submit', function (e) {
 
     const file = fileInput.files[0];
     const password = passwordInput.value;
+    const device = deviceSelect.value;
+
+    if (!device) {
+        alert('Please select a device.');
+        return;
+    }
 
     const formData = new FormData();
     formData.append('file', file);
     formData.append('password', password);
-    formData.append('userName' , localStorage.getItem('userName'))
+    formData.append('userName', localStorage.getItem('userName'));
+    formData.append('device', device);
 
     showLoader();
     fetch('https://imageocr-nsnb.onrender.com/upload', {
@@ -61,7 +69,7 @@ document.getElementById('uploadForm').addEventListener('submit', function (e) {
 
             hideLoader();
 
-            saveDataInBackend(file, password); // Call saveDataInBackend with file and password
+            saveDataInBackend(file, password, device); // Pass device to saveDataInBackend
         })
         .catch(error => {
             console.error('Error:', error);
@@ -69,10 +77,11 @@ document.getElementById('uploadForm').addEventListener('submit', function (e) {
         });
 });
 
-function saveDataInBackend(file, password) {
+function saveDataInBackend(file, password, device) {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('password', password);
+    formData.append('device', device);
     const userName = localStorage.getItem('userName');
 
     fetch(`https://MovieSearch.cfapps.us10-001.hana.ondemand.com/api/upload/${userName}`, {
@@ -89,17 +98,14 @@ function saveDataInBackend(file, password) {
         });
 }
 
-
 function showLoader() {
     const loader = document.getElementById('loader');
     loader.classList.add('active');
     loader.style.display = 'flex';
 }
 
-// Function to hide the loader
 function hideLoader() {
     const loader = document.getElementById('loader');
     loader.classList.remove('active');
     loader.style.display = 'none';
 }
-

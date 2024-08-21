@@ -8,7 +8,6 @@
 </head>
 <body>
 
-
     <div id="loader" class="loader">
         <div class="dot1"></div>
         <div class="dot2"></div>
@@ -26,7 +25,6 @@
         </div>
 
         <div id="total-debit">Total Debit: INR 0.00</div>
-        
 
         <form id="uploadForm">
             <label for="fileInput" class="form-label">Select PDF file:</label>
@@ -35,6 +33,16 @@
             <label for="passwordInput" class="form-label">PDF Password (if any):</label>
             <input type="password" id="passwordInput" placeholder="Enter password if PDF is protected" class="form-input">
             <br><br>
+
+            <!-- Device Selection Dropdown -->
+            <label for="deviceSelect" class="form-label">Select your device:</label>
+            <select id="deviceSelect" class="form-input" required>
+                <option value="">Select Device</option>
+                <option value="android">Android</option>
+                <option value="ios">iOS</option>
+            </select>
+            <br><br>
+
             <button type="submit" class="submit-button">Upload and Convert</button>
         </form>
 
