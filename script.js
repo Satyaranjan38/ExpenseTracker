@@ -172,20 +172,55 @@ function attachUpdateListeners() {
     });
 }
 
+
+document.getElementById('filter-category').addEventListener('change', filterExpenses);
+document.getElementById('filter-transaction-type').addEventListener('change', filterExpenses);
+
+function filterExpenses() {
+    const categoryFilter = document.getElementById('filter-category').value.toLowerCase();
+    const transactionTypeFilter = document.getElementById('filter-transaction-type').value;
+
+    const rows = document.querySelectorAll('#expensesTableBody tr');
+    let totalDebit = 0;
+    let totalCredit = 0;
+
+    rows.forEach(row => {
+        const category = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+        const transactionType = row.querySelector('td:nth-child(5)').textContent;
+
+        const matchesCategory = !categoryFilter || category === categoryFilter;
+        const matchesTransactionType = !transactionTypeFilter || transactionType === transactionTypeFilter;
+
+        if (matchesCategory && matchesTransactionType) {
+            row.style.display = '';
+            const amount = parseFloat(row.querySelector('td:nth-child(2)').textContent.replace(/[^0-9.-]+/g, ""));
+            if (transactionType === 'Debit') {
+                totalDebit += amount;
+            } else if (transactionType === 'Credit') {
+                totalCredit += amount;
+            }
+        } else {
+            row.style.display = 'none';
+        }
+    });
+
+    document.getElementById('totalDebit').textContent = `Total Debit: INR ${totalDebit.toFixed(2)}`;
+    document.getElementById('totalCredit').textContent = `Total Credit: INR ${totalCredit.toFixed(2)}`;
+}
+
 // Update displayExpenses function to include the new "Update" button
 function displayExpenses() {
     const userName = localStorage.getItem('userName');
+    const totalHeaderExpense = document.getElementById('total-expense') ; 
     showLoader();
     fetch(`https://imageocr-nsnb.onrender.com/get-current-month-transactions/${userName}`)
         .then(response => response.json())
         .then(expenses => {
             const expensesTableBody = document.getElementById('expensesTableBody');
-            const totalExpenseElement = document.getElementById('totalExpense');
-            const totalExpenseHeader = document.getElementById('total-expense') ; 
-            
             expensesTableBody.innerHTML = '';
-            let totalExpense = 0;
-            
+            let totalDebit = 0;
+            let totalCredit = 0;
+
             expenses.forEach(expense => {
                 const row = document.createElement('tr');
                 row.dataset.id = expense._id; // Set the expense ID in the row data attribute
@@ -194,21 +229,34 @@ function displayExpenses() {
                     <td>${expense.amount.toFixed(2)}</td>
                     <td>${expense.date}</td>
                     <td>${expense.category}</td>
+                    <td>${expense.transactionType}</td>
                     <td>
                         <button class="update-btn">Update Category</button>
                     </td>
                 `;
+
+                if (expense.transactionType === 'Debit') {
+                    totalDebit += expense.amount;
+                } else if (expense.transactionType === 'Credit') {
+                    totalCredit += expense.amount;
+                }
+
                 expensesTableBody.appendChild(row);
-                totalExpense += expense.amount;
             });
-            
-            totalExpenseElement.textContent = `Total Expense: ${totalExpense.toFixed(2)}`;
-            totalExpenseHeader.textContent = `Total Expense: ${totalExpense.toFixed(2)}`;
+
+            document.getElementById('totalDebit').textContent = `Total Debit: INR ${totalDebit.toFixed(2)}`;
+            document.getElementById('totalCredit').textContent = `Total Credit: INR ${totalCredit.toFixed(2)}`;
+            document.getElementById('total-expense').textContent = `Total Debit: INR ${totalDebit.toFixed(2)}`;
             hideLoader();
             attachUpdateListeners(); // Re-attach listeners to newly created buttons
         })
-        .catch(error => console.error('Error fetching expenses:', error));
+        .catch(error => {
+            console.error('Error fetching expenses:', error);
+            hideLoader();
+        });
 }
+
+
 
 
     // window.updateExpense = (id) => {
@@ -654,35 +702,35 @@ document.getElementById('downloadExcel').addEventListener('click', downloadExcel
         filterExpenses();
     });
 
-    function filterExpenses() {
-        const selectedCategory = filterCategory.value;
-        const userName = localStorage.getItem('userName');
-        fetch(`${API_BASE_URL}/expense/current-month/${userName}`)
-            .then(response => response.json())
-            .then(expenses => {
-                const expensesTableBody = document.getElementById('expensesTableBody');
-                expensesTableBody.innerHTML = '';
-                let totalExpense = 0;
+    // function filterExpenses() {
+    //     const selectedCategory = filterCategory.value;
+    //     const userName = localStorage.getItem('userName');
+    //     fetch(`${API_BASE_URL}/expense/current-month/${userName}`)
+    //         .then(response => response.json())
+    //         .then(expenses => {
+    //             const expensesTableBody = document.getElementById('expensesTableBody');
+    //             expensesTableBody.innerHTML = '';
+    //             let totalExpense = 0;
 
-                expenses
-                    .filter(expense => !selectedCategory || expense.catagory === selectedCategory)
-                    .forEach(expense => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${expense.name}</td>
-                            <td>${expense.amount.toFixed(2)}</td>
-                            <td>${expense.date}</td>
-                            <td>${expense.catagory}</td>
-                            <td><button onclick="deleteExpense(${expense.id})">Delete</button></td>
-                        `;
-                        expensesTableBody.appendChild(row);
-                        totalExpense += expense.amount;
-                    });
+    //             expenses
+    //                 .filter(expense => !selectedCategory || expense.catagory === selectedCategory)
+    //                 .forEach(expense => {
+    //                     const row = document.createElement('tr');
+    //                     row.innerHTML = `
+    //                         <td>${expense.name}</td>
+    //                         <td>${expense.amount.toFixed(2)}</td>
+    //                         <td>${expense.date}</td>
+    //                         <td>${expense.catagory}</td>
+    //                         <td><button onclick="deleteExpense(${expense.id})">Delete</button></td>
+    //                     `;
+    //                     expensesTableBody.appendChild(row);
+    //                     totalExpense += expense.amount;
+    //                 });
 
-                totalExpenseElement.textContent = `Total Expense: ${totalExpense.toFixed(2)}`;
-            })
-            .catch(error => console.error('Error fetching expenses:', error));
-    }
+    //             totalExpenseElement.textContent = `Total Expense: ${totalExpense.toFixed(2)}`;
+    //         })
+    //         .catch(error => console.error('Error fetching expenses:', error));
+    // }
 
     const notificationBtn = document.getElementById('notification-btn');
 const modal = document.getElementById('notification-modal');
