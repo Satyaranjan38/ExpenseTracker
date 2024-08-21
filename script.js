@@ -5,6 +5,19 @@ let totalCredit = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    function showLoader() {
+        const loader = document.getElementById('loader');
+        loader.classList.add('active');
+        loader.style.display = 'flex';
+    }
+    
+    // Function to hide the loader
+    function hideLoader() {
+        const loader = document.getElementById('loader');
+        loader.classList.remove('active');
+        loader.style.display = 'none';
+    }
+
 
     checkAuthorization() ; 
     displayUserName();
@@ -162,6 +175,7 @@ function attachUpdateListeners() {
 // Update displayExpenses function to include the new "Update" button
 function displayExpenses() {
     const userName = localStorage.getItem('userName');
+    showLoader();
     fetch(`https://imageocr-nsnb.onrender.com/get-current-month-transactions/${userName}`)
         .then(response => response.json())
         .then(expenses => {
@@ -190,6 +204,7 @@ function displayExpenses() {
             
             totalExpenseElement.textContent = `Total Expense: ${totalExpense.toFixed(2)}`;
             totalExpenseHeader.textContent = `Total Expense: ${totalExpense.toFixed(2)}`;
+            hideLoader();
             attachUpdateListeners(); // Re-attach listeners to newly created buttons
         })
         .catch(error => console.error('Error fetching expenses:', error));
