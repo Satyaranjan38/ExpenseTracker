@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const API_BASE_URL = 'https://MovieSearch.cfapps.us10-001.hana.ondemand.com'; // Replace with your actual API base URL
+    const API_BASE_URL = 'https://railwaybackend-ludo.onrender.com'; // Replace with your actual API base URL
     //const API_BASE_URL = 'http://localhost:8086';
     const reminderForm = document.getElementById('reminder-form');
     const remindersTableBody = document.getElementById('remindersTableBody');

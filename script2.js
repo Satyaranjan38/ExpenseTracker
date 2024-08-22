@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://MovieSearch.cfapps.us10-001.hana.ondemand.com'; 
+const API_BASE_URL = 'https://railwaybackend-ludo.onrender.com'; 
 const ctx = document.getElementById('transactionChart').getContext('2d');
 const transactionChart = new Chart(ctx, {
     type: 'pie', 
@@ -83,15 +83,49 @@ function addTransactionToUI(transaction) {
             <div class="dropdown">
                 <button class="dropbtn">Actions</button>
                 <div class="dropdown-content">
-                    <a href="#" onclick="deleteTransaction(${transaction.id})">Delete</a>
-                    <a href="#" onclick="markAsPaid(${transaction.id})">Paid</a>
-                    <a href="#" onclick="notifyPerson(${transaction.id}, '${transaction.personEmail}' ,'${transaction.transationType}' )">Notify</a>
+                    <!-- Correctly wrap the transaction.id in quotes -->
+                    <a href="#" onclick="deleteTransaction('${transaction.id}')">Delete</a>
+                    <a href="#" onclick="markAsPaid('${transaction.id}')">Paid</a>
+                    <a href="#" onclick="notifyPerson('${transaction.id}', '${transaction.personEmail}', '${transaction.transationType}')">Notify</a>
                 </div>
             </div>
         </td>
     `;
     transactionsTable.appendChild(tr);
 }
+
+function addTransactionToUI2(transaction) {
+    const transactionsTable = document.querySelector('#transactionsTable tbody');
+    let displayType;
+    if (transaction.transationType === 'lent') {
+        displayType = 'owe'; // Show 'Owe' if the transaction type is 'lent'
+    } else if (transaction.transationType === 'owe') {
+        displayType = 'lent'; // Show 'Lent' if the transaction type is 'owe'
+    } else {
+        displayType = transaction.transationType; // Fallback to the original type if it's neither
+    }
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+        <td>${transaction.userName}</td>
+        <td>${transaction.amount}</td>
+        <td>${displayType}</td>
+        <td>${transaction.reason}</td>
+        <td>${transaction.paid}</td>
+        <td>
+            <div class="dropdown">
+                <button class="dropbtn">Actions</button>
+                <div class="dropdown-content">
+                    <!-- Correctly wrap the transaction.id in quotes -->
+                    <a href="#" onclick="deleteTransaction('${transaction.id}')">Delete</a>
+                    <a href="#" onclick="markAsPaid('${transaction.id}')">Paid</a>
+                    <!-- <a href="#" onclick="notifyPerson('${transaction.id}', '${transaction.personEmail}', '${transaction.transationType}')">Notify</a>-->
+                </div>
+            </div>
+        </td>
+    `;
+    transactionsTable.appendChild(tr);
+}
+
 
 function deleteTransaction(id) {
     showLoader(); 
@@ -139,14 +173,28 @@ function notifyPerson(id, email ,transationType ) {
 function fetchTransactions() {
     showLoader();
     const userName = localStorage.getItem('userName');
+    
+    // Fetch transactions for the current user
     fetch(`${API_BASE_URL}/api/transactions/${userName}`)
         .then(response => response.json())
         .then(transactions => {
             transactions.forEach(addTransactionToUI);
-            hideLoader() ; 
-            updateChart();
+            
+            // After processing the first API response, fetch transactions from another user
+            fetch(`http://localhost:9090/checkFromOtherUser/${userName}`)
+                .then(response => response.json())
+                .then(otherUserTransactions => {
+                    otherUserTransactions.forEach(addTransactionToUI2);
+                    hideLoader();
+                    updateChart();
+                });
+        })
+        .catch(error => {
+            console.error('Error fetching transactions:', error);
+            hideLoader();
         });
 }
+
 
 function updateChart() {
     const userName = localStorage.getItem('userName');

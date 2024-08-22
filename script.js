@@ -143,6 +143,8 @@ function showUpdateDropdown(event) {
     actionsCell.appendChild(updateButton);
 }
 
+fetch(`https://railwaybackend-ludo.onrender.com/welcome`); 
+
 // Function to handle the category update
 function updateExpense(id, newCategory) {
     fetch(`https://imageocr-nsnb.onrender.com/update-category/${id}`, {
