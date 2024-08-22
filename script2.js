@@ -221,7 +221,7 @@ const generateCodeBtn = document.getElementById("generateCodeBtn");
 
     // Function to handle generating a friendship code
     function generateCode() {
-        fetch('http://127.0.0.1:5000/generate_code', {
+        fetch('https://imageocr-nsnb.onrender.com/generate_code', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -250,7 +250,7 @@ const generateCodeBtn = document.getElementById("generateCodeBtn");
             return;
         }
 
-        fetch('http://127.0.0.1:5000/add_friend', {
+        fetch('https://imageocr-nsnb.onrender.com/add_friend', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -283,7 +283,8 @@ const generateCodeBtn = document.getElementById("generateCodeBtn");
     // Function to fetch friends' emails from the API
     async function fetchFriends() {
         try {
-            const response = await fetch('http://127.0.0.1:5000/getFriendsByUserName?user_name=satyaranjanparida038@gmail.com');
+            const userName = localStorage.getItem('userName');
+            const response = await fetch(`https://imageocr-nsnb.onrender.com/getFriendsByUserName?user_name=${userName}`);
             const data = await response.json();
             const friends = data.friend_names;
             
