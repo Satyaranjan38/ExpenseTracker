@@ -181,7 +181,7 @@ function fetchTransactions() {
             transactions.forEach(addTransactionToUI);
             
             // After processing the first API response, fetch transactions from another user
-            fetch(`http://localhost:9090/checkFromOtherUser/${userName}`)
+            fetch(`${API_BASE_URL}/checkFromOtherUser/${userName}`)
                 .then(response => response.json())
                 .then(otherUserTransactions => {
                     otherUserTransactions.forEach(addTransactionToUI2);
