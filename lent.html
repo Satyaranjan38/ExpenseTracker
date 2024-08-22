@@ -37,30 +37,49 @@
                     <option value="owe">Owe</option>
                 </select>
                 <input type="text" id="reason" placeholder="Reason (Optional)">
-                <input type="email" id="email" placeholder="Person Email (Optional)">
+                
+                <!-- Dropdown for friends' emails -->
+                <select id="emailDropdown">
+                    <option value="" disabled selected>Select or enter email</option>
+                </select>
+                <input type="email" id="emailInput" placeholder="Person Email (Optional)">
+        
                 <button type="submit">Add Transaction</button>
             </form>
+        </section>
+        
+
+        <section class="friend-code-section">
+            <h2>Friendship Code</h2>
+            <div>
+                <button id="generateCodeBtn">Generate Code</button>
+                <input type="text" id="generatedCode" placeholder="Your Code" readonly>
+            </div>
+            <div>
+                <input type="text" id="friendCode" placeholder="Enter Friend's Code">
+                <button id="addFriendBtn">Add Friend</button>
+            </div>
         </section>
 
         <section class="transactions-section">
             <h2>Transactions</h2>
             <div class="table-responsive">
-            <table id="transactionsTable">
-                <thead>
-                    <tr>
-                        <th>Person Name</th>
-                        <th>Amount</th>
-                        <th>Type</th>
-                        <th>Reason</th>
-                        <th>Paid</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Transactions will be added here -->
-                </tbody>
-            </table>
-        </div>
+                <table id="transactionsTable">
+                    <thead>
+                        <tr>
+                            <th>Person Name</th>
+                            <th>Amount</th>
+                            <th>Type</th>
+                            <th>Reason</th>
+                            <th>Paid</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Transactions will be added here -->
+                    </tbody>
+                </table>
+            </div>
         </section>
 
         <section class="chart-section">

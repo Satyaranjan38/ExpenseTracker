@@ -1,3 +1,5 @@
+
+
 const API_BASE_URL = 'https://railwaybackend-ludo.onrender.com'; 
 const ctx = document.getElementById('transactionChart').getContext('2d');
 const transactionChart = new Chart(ctx, {
@@ -49,10 +51,11 @@ document.getElementById('transactionForm').addEventListener('submit', function(e
     const personName = document.getElementById('personName').value;
     const amount = document.getElementById('amount').value;
     const transationType = document.getElementById('transactionType').value;
-    const personEmail = document.getElementById('email').value;
+    const personEmail = emailInput.value || emailDropdown.value;
     const date = document.getElementById('expense-date').value;
     const userName = localStorage.getItem('userName');
     const reason = document.getElementById('reason').value;
+    
 
     fetch(`${API_BASE_URL}/api/transactions`, {
         method: 'POST',
@@ -209,4 +212,109 @@ function updateChart() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', fetchTransactions);
+const generateCodeBtn = document.getElementById("generateCodeBtn");
+    const generatedCodeInput = document.getElementById("generatedCode");
+    const addFriendBtn = document.getElementById("addFriendBtn");
+    const friendCodeInput = document.getElementById("friendCode");
+
+    const USER_ID = localStorage.getItem('userName') // Replace with the actual user ID
+
+    // Function to handle generating a friendship code
+    function generateCode() {
+        fetch('http://127.0.0.1:5000/generate_code', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ user_id: USER_ID })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.code) {
+                generatedCodeInput.value = data.code;
+            } else {
+                alert("Failed to generate code");
+            }
+        })
+        .catch(error => {
+            console.error("Error generating code:", error);
+            alert("An error occurred while generating the code");
+        });
+    }
+
+    // Function to handle adding a friend
+    function addFriend() {
+        const friendCode = friendCodeInput.value;
+        if (friendCode === "") {
+            alert("Please enter your friend's code.");
+            return;
+        }
+
+        fetch('http://127.0.0.1:5000/add_friend', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ user_id: USER_ID, code: friendCode })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                alert("Friend added successfully!");
+            } else if (data.error) {
+                alert("Error adding friend: " + data.error);
+            }
+        })
+        .catch(error => {
+            console.error("Error adding friend:", error);
+            alert("An error occurred while adding the friend");
+        });
+    }
+
+    // Event listener for Generate Code button
+    generateCodeBtn.addEventListener("click", generateCode);
+
+    // Event listener for Add Friend button
+    addFriendBtn.addEventListener("click", addFriend);
+
+    const emailDropdown = document.getElementById('emailDropdown');
+    const emailInput = document.getElementById('emailInput');
+    
+    // Function to fetch friends' emails from the API
+    async function fetchFriends() {
+        try {
+            const response = await fetch('http://127.0.0.1:5000/getFriendsByUserName?user_name=satyaranjanparida038@gmail.com');
+            const data = await response.json();
+            const friends = data.friend_names;
+            
+            // Populate the dropdown with friends' emails
+            friends.forEach(email => {
+                const option = document.createElement('option');
+                option.value = email;
+                option.textContent = email;
+                emailDropdown.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error fetching friends:', error);
+        }
+    }
+    
+    // Fetch friends on page load
+    fetchFriends();
+    // fetchTransactions() ; 
+    
+    // Handle changes in the dropdown
+    emailDropdown.addEventListener('change', function() {
+        personEmail.value = emailDropdown.value ; 
+        emailInput.value = '';  // Clear custom email input if dropdown is used
+        
+    });
+    
+    // Handle input email
+    emailInput.addEventListener('input', function() {
+        personEmail.value = emailInput.value ; 
+        emailDropdown.value = '';  // Clear dropdown selection if custom email is entered
+    });
+
+
+document.addEventListener('DOMContentLoaded', fetchTransactions , fetchFriends);
