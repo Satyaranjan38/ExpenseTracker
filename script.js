@@ -227,99 +227,104 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update displayExpenses function to include the new "Update" button
     let currentPage = 1;
-const itemsPerPage = 10;
-let cachedExpenses = []; // Variable to store fetched expenses
-
-function fetchExpenses() {
-    const userName = localStorage.getItem('userName');
-    showLoader();
-
-    fetch(`https://imageocr-nsnb.onrender.com/get-current-month-transactions/${userName}`)
-        .then(response => response.json())
-        .then(expenses => {
-            cachedExpenses = expenses; // Cache the fetched expenses
-            displayExpenses(currentPage);
-            hideLoader();
-        })
-        .catch(error => {
-            console.error('Error fetching expenses:', error);
-            hideLoader();
+    const itemsPerPage = 10;
+    let cachedExpenses = []; // Variable to store fetched expenses
+    
+    function fetchExpenses() {
+        const userName = localStorage.getItem('userName');
+        showLoader();
+    
+        fetch(`https://imageocr-nsnb.onrender.com/get-current-month-transactions/${userName}`)
+            .then(response => response.json())
+            .then(expenses => {
+                cachedExpenses = expenses; // Cache the fetched expenses
+                displayTotals(); // Calculate and display total debit and credit for all expenses
+                displayExpenses(currentPage); // Display expenses for the current page
+                hideLoader();
+            })
+            .catch(error => {
+                console.error('Error fetching expenses:', error);
+                hideLoader();
+            });
+    }
+    
+    function displayExpenses(page = 1) {
+        const expensesTableBody = document.getElementById('expensesTableBody');
+        expensesTableBody.innerHTML = '';
+    
+        // Calculate pagination details
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = page * itemsPerPage;
+        const paginatedExpenses = cachedExpenses.slice(startIndex, endIndex);
+    
+        paginatedExpenses.forEach(expense => {
+            const row = document.createElement('tr');
+            row.dataset.id = expense._id;
+            row.innerHTML = `
+                <td>${expense.party}</td>
+                <td>${expense.amount.toFixed(2)}</td>
+                <td>${expense.date}</td>
+                <td>${expense.category}</td>
+                <td>${expense.transactionType}</td>
+                <td>
+                    <button class="update-btn">Update Category</button>
+                </td>
+            `;
+    
+            expensesTableBody.appendChild(row);
         });
-}
-
-function displayExpenses(page = 1) {
-    const expensesTableBody = document.getElementById('expensesTableBody');
-    expensesTableBody.innerHTML = '';
-    let totalDebit = 0;
-    let totalCredit = 0;
-
-    // Calculate pagination details
-    const startIndex = (page - 1) * itemsPerPage;
-    const endIndex = page * itemsPerPage;
-    const paginatedExpenses = cachedExpenses.slice(startIndex, endIndex);
-
-    paginatedExpenses.forEach(expense => {
-        const row = document.createElement('tr');
-        row.dataset.id = expense._id;
-        row.innerHTML = `
-            <td>${expense.party}</td>
-            <td>${expense.amount.toFixed(2)}</td>
-            <td>${expense.date}</td>
-            <td>${expense.category}</td>
-            <td>${expense.transactionType}</td>
-            <td>
-                <button class="update-btn">Update Category</button>
-            </td>
-        `;
-
-        if (expense.transactionType === 'Debit') {
-            totalDebit += expense.amount;
-        } else if (expense.transactionType === 'Credit') {
-            totalCredit += expense.amount;
-        }
-
-        expensesTableBody.appendChild(row);
-    });
-
-    document.getElementById('totalDebit').textContent = `Total Debit: INR ${totalDebit.toFixed(2)}`;
-    document.getElementById('totalCredit').textContent = `Total Credit: INR ${totalCredit.toFixed(2)}`;
-    document.getElementById('total-expense').textContent = `Total Debit: INR ${totalDebit.toFixed(2)}`;
-
-    attachUpdateListeners();
-
-    // Update pagination controls
-    updatePagination(cachedExpenses.length, page);
-}
-
-function updatePagination(totalItems, currentPage) {
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
-    const pageIndicator = document.getElementById('pageIndicator');
-    const prevPageButton = document.getElementById('prevPage');
-    const nextPageButton = document.getElementById('nextPage');
-
-    pageIndicator.textContent = `Page ${currentPage} of ${totalPages}`;
-
-    prevPageButton.disabled = currentPage === 1;
-    nextPageButton.disabled = currentPage === totalPages;
-
-    prevPageButton.onclick = () => {
-        if (currentPage > 1) {
-            currentPage--;
-            displayExpenses(currentPage);
-        }
-    };
-
-    nextPageButton.onclick = () => {
-        if (currentPage < totalPages) {
-            currentPage++;
-            displayExpenses(currentPage);
-        }
-    };
-}
-
-// Initial fetch
-fetchExpenses();
-
+    
+        attachUpdateListeners();
+    
+        // Update pagination controls
+        updatePagination(cachedExpenses.length, page);
+    }
+    
+    function displayTotals() {
+        let totalDebit = 0;
+        let totalCredit = 0;
+    
+        cachedExpenses.forEach(expense => {
+            if (expense.transactionType === 'Debit') {
+                totalDebit += expense.amount;
+            } else if (expense.transactionType === 'Credit') {
+                totalCredit += expense.amount;
+            }
+        });
+    
+        document.getElementById('totalDebit').textContent = `Total Debit: INR ${totalDebit.toFixed(2)}`;
+        document.getElementById('totalCredit').textContent = `Total Credit: INR ${totalCredit.toFixed(2)}`;
+        document.getElementById('total-expense').textContent = `Total Debit: INR ${totalDebit.toFixed(2)}`;
+    }
+    
+    function updatePagination(totalItems, currentPage) {
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        const pageIndicator = document.getElementById('pageIndicator');
+        const prevPageButton = document.getElementById('prevPage');
+        const nextPageButton = document.getElementById('nextPage');
+    
+        pageIndicator.textContent = `Page ${currentPage} of ${totalPages}`;
+    
+        prevPageButton.disabled = currentPage === 1;
+        nextPageButton.disabled = currentPage === totalPages;
+    
+        prevPageButton.onclick = () => {
+            if (currentPage > 1) {
+                currentPage--;
+                displayExpenses(currentPage);
+            }
+        };
+    
+        nextPageButton.onclick = () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayExpenses(currentPage);
+            }
+        };
+    }
+    
+    // Initial fetch
+    fetchExpenses();
 
 
 
@@ -420,8 +425,8 @@ fetchExpenses();
                     createChart(
                         budgetReportChartCanvas,
                         'bar',
-                        [budget, totalExpense - budget],
-                        ['Budget', 'Exceeded'],
+                        [budget, totalExpense],
+                        ['Budget', 'Expense'],
                         'Budget Report'
                     );
                 }
