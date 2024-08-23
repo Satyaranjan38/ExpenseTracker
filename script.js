@@ -142,8 +142,23 @@ function showUpdateDropdown(event) {
     actionsCell.appendChild(dropdown);
     actionsCell.appendChild(updateButton);
 }
-
-fetch(`https://railwaybackend-ludo.onrender.com/welcome`); 
+const lentButton = document.getElementById('lent');
+enableButtonAfterFetch();
+function enableButtonAfterFetch() {
+    fetch('https://railwaybackend-ludo.onrender.com/welcome')
+        .then(response => {
+            if (response.ok) {
+                // Enable the button once the response is received
+                lentButton.disabled = false;
+                lentButton.classList.remove('disabled-button');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            lentButton.disabled = false;
+            lentButton.classList.remove('disabled-button');
+        });
+}
 
 // Function to handle the category update
 function updateExpense(id, newCategory) {

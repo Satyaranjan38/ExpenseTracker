@@ -306,14 +306,12 @@ const generateCodeBtn = document.getElementById("generateCodeBtn");
     
     // Handle changes in the dropdown
     emailDropdown.addEventListener('change', function() {
-        personEmail.value = emailDropdown.value ; 
         emailInput.value = '';  // Clear custom email input if dropdown is used
         
     });
     
     // Handle input email
     emailInput.addEventListener('input', function() {
-        personEmail.value = emailInput.value ; 
         emailDropdown.value = '';  // Clear dropdown selection if custom email is entered
     });
 
