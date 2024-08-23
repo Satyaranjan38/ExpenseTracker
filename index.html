@@ -32,7 +32,7 @@
         <button id="upload" type="submit">Upload Phone Pay Transaction </button>
         <div id="total-expense">Total Expense: $0.00</div>
 
-        <section id="add-expense">
+        <!-- <section id="add-expense">
             <h2>Add Expense</h2>
             <form id="expense-form">
                 <input type="text" id="expense-name" placeholder="Expense Name" required>
@@ -48,7 +48,7 @@
                 </select>
                 <button type="submit">Add Expense</button>
             </form>
-        </section>
+        </section> -->
 
         <section id="expense-list">
             <h2>Expense List</h2>
@@ -85,6 +85,12 @@
                         <!-- Table rows will be dynamically loaded here -->
                     </tbody>
                 </table>
+            </div>
+
+            <div id="pagination" class="pagination">
+                <button id="prevPage" disabled>Previous</button>
+                <span id="pageIndicator"></span>
+                <button id="nextPage">Next</button>
             </div>
             <div id="totalDebit">Total Debit: INR 0.00</div>
             <div id="totalCredit">Total Credit: INR 0.00</div>

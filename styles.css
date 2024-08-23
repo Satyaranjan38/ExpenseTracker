@@ -380,3 +380,32 @@ button:not(.disabled-button) {
     cursor: pointer;
     opacity: 1;
 }
+
+/* Pagination Styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.pagination button {
+    background-color: #1e40af;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin: 0 0.5rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.pagination button:disabled {
+    background-color: grey;
+    cursor: not-allowed;
+}
+
+.pagination button:hover:enabled {
+    background-color: #1d4ed8;
+    transform: translateY(-3px);
+}
