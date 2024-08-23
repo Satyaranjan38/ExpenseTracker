@@ -95,7 +95,7 @@
             <div id="totalDebit">Total Debit: INR 0.00</div>
             <div id="totalCredit">Total Credit: INR 0.00</div>
         </section>
-        
+
 
 
 
@@ -114,8 +114,13 @@
             <section id="report">
                 <h2>Expense Report</h2>
                 <!-- <button id="view-current-month">View Current Month Expenses</button> -->
-                <button id="view-monthly">View Monthly Expenses</button>
+                <!-- <button id="view-monthly">View Monthly Expenses</button> -->
                 <canvas id="expense-chart"></canvas>
+                <button id="zoomIn">Zoom In</button>
+                <button id="zoomOut">Zoom Out</button>
+                <button id="resetZoom">Reset Zoom</button>
+
+
 
                 <!-- <canvas id="current-month-chart"></canvas> -->
             </section>
@@ -164,7 +169,7 @@
                 <span id="phonePayPageIndicator"></span>
                 <button id="phonePayNextPage">Next</button>
             </div>
-            
+
 
             <!-- <button id="downloadPdf">Download PDF</button> -->
             <button id="downloadExcel">Download Excel</button>
@@ -196,6 +201,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.0/dist/chartjs-plugin-zoom.min.js"></script>
 
     <script src="script.js"></script>
 </body>

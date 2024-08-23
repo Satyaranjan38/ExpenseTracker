@@ -465,6 +465,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .catch(error => console.error('Error fetching monthly expenses:', error))
         };
     }
+    
     const ctx = document.getElementById('expense-chart').getContext('2d');
     const userName = localStorage.getItem('userName');
     fetch(`https://imageocr-nsnb.onrender.com/get-data/${userName}`)
@@ -472,34 +473,34 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             // Define an array to maintain the correct month order
             const monthOrder = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
-
+    
             // Process the response to extract and sort months, amounts, and transaction types
             const transactions = data.filter(transaction => transaction.year === new Date().getFullYear().toString());
-
+    
             // Sort transactions by month order
             transactions.sort((a, b) => monthOrder.indexOf(a.month) - monthOrder.indexOf(b.month));
-
+    
             const debitAmounts = [];
             const creditAmounts = [];
-
+    
             monthOrder.forEach(month => {
                 const debitTransaction = transactions.find(transaction => transaction.month === month && transaction.transactionType === 'Debit');
                 const creditTransaction = transactions.find(transaction => transaction.month === month && transaction.transactionType === 'Credit');
-
+    
                 // If no debit/credit transaction exists for the month, push 0
                 debitAmounts.push(debitTransaction ? debitTransaction.amount : 0);
                 creditAmounts.push(creditTransaction ? creditTransaction.amount : 0);
             });
-
+    
             const months = transactions.map(transaction => transaction.month);
             const amounts = transactions.map(transaction => transaction.amount);
-
+    
             populatePhonePayTable(data);
             populateYearFilter(data);
-
-            // Create a chart using Chart.js
+    
+            // Create a chart using Chart.js with zoom and pan functionality
             const myChart = new Chart(ctx, {
-                type: 'bar', // Change 'bar' to other chart types like 'line' if needed
+                type: 'bar',
                 data: {
                     labels: monthOrder,
                     datasets: [
@@ -546,15 +547,46 @@ document.addEventListener('DOMContentLoaded', () => {
                                     return `${tooltipItem.dataset.label}: INR ${tooltipItem.raw}`;
                                 }
                             }
+                        },
+                        zoom: {
+                            pan: {
+                                enabled: true,
+                                mode: 'xy', // Enable panning in both directions
+                            },
+                            zoom: {
+                                wheel: {
+                                    enabled: true, // Enable zooming with the mouse wheel
+                                },
+                                pinch: {
+                                    enabled: true, // Enable zooming with touch gestures
+                                },
+                                mode: 'xy', // Enable zooming in both directions
+                            }
                         }
                     }
                 }
             });
+    
+            // Add event listener for the reset zoom button
+            document.getElementById('resetZoom').addEventListener('click', function() {
+                myChart.resetZoom();
+            });
+    
+            // Add event listeners for zoom in and zoom out buttons
+            document.getElementById('zoomIn').addEventListener('click', function() {
+                myChart.zoom(1.1); // Zoom in by 10%
+            });
+    
+            document.getElementById('zoomOut').addEventListener('click', function() {
+                myChart.zoom(0.9); // Zoom out by 10%
+            });
+    
         })
         .catch(error => {
             console.error('Error fetching the monthly reports:', error);
             alert('An error occurred while fetching the monthly reports.');
         });
+    
 
     let currentPhonePayPage = 1;
     const phonePayItemsPerPage = 12;
@@ -812,11 +844,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    document.getElementById('view-monthly').addEventListener('click', () => {
-        fetchData().monthWiseExpenses.then(monthlyExpenses => {
-            showBarChart(monthlyExpenses);
-        });
-    });
+    // document.getElementById('view-monthly').addEventListener('click', () => {
+    //     fetchData().monthWiseExpenses.then(monthlyExpenses => {
+    //         showBarChart(monthlyExpenses);
+    //     });
+    // });
 
     document.getElementById('download-pdf').addEventListener('click', () => {
         downloadPdf();

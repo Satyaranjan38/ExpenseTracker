@@ -409,3 +409,13 @@ button:not(.disabled-button) {
     background-color: #1d4ed8;
     transform: translateY(-3px);
 }
+
+/* #resetZoom {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+} */
