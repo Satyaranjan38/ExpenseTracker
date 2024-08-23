@@ -229,11 +229,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPage = 1;
     const itemsPerPage = 10;
     let cachedExpenses = []; // Variable to store fetched expenses
-    
+
     function fetchExpenses() {
         const userName = localStorage.getItem('userName');
         showLoader();
-    
+
         fetch(`https://imageocr-nsnb.onrender.com/get-current-month-transactions/${userName}`)
             .then(response => response.json())
             .then(expenses => {
@@ -247,16 +247,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 hideLoader();
             });
     }
-    
+
     function displayExpenses(page = 1) {
         const expensesTableBody = document.getElementById('expensesTableBody');
         expensesTableBody.innerHTML = '';
-    
+
         // Calculate pagination details
         const startIndex = (page - 1) * itemsPerPage;
         const endIndex = page * itemsPerPage;
         const paginatedExpenses = cachedExpenses.slice(startIndex, endIndex);
-    
+
         paginatedExpenses.forEach(expense => {
             const row = document.createElement('tr');
             row.dataset.id = expense._id;
@@ -270,20 +270,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     <button class="update-btn">Update Category</button>
                 </td>
             `;
-    
+
             expensesTableBody.appendChild(row);
         });
-    
+
         attachUpdateListeners();
-    
+
         // Update pagination controls
         updatePagination(cachedExpenses.length, page);
     }
-    
+
     function displayTotals() {
         let totalDebit = 0;
         let totalCredit = 0;
-    
+
         cachedExpenses.forEach(expense => {
             if (expense.transactionType === 'Debit') {
                 totalDebit += expense.amount;
@@ -291,30 +291,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalCredit += expense.amount;
             }
         });
-    
+
         document.getElementById('totalDebit').textContent = `Total Debit: INR ${totalDebit.toFixed(2)}`;
         document.getElementById('totalCredit').textContent = `Total Credit: INR ${totalCredit.toFixed(2)}`;
         document.getElementById('total-expense').textContent = `Total Debit: INR ${totalDebit.toFixed(2)}`;
     }
-    
+
     function updatePagination(totalItems, currentPage) {
         const totalPages = Math.ceil(totalItems / itemsPerPage);
         const pageIndicator = document.getElementById('pageIndicator');
         const prevPageButton = document.getElementById('prevPage');
         const nextPageButton = document.getElementById('nextPage');
-    
+
         pageIndicator.textContent = `Page ${currentPage} of ${totalPages}`;
-    
+
         prevPageButton.disabled = currentPage === 1;
         nextPageButton.disabled = currentPage === totalPages;
-    
+
         prevPageButton.onclick = () => {
             if (currentPage > 1) {
                 currentPage--;
                 displayExpenses(currentPage);
             }
         };
-    
+
         nextPageButton.onclick = () => {
             if (currentPage < totalPages) {
                 currentPage++;
@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
     }
-    
+
     // Initial fetch
     fetchExpenses();
 
@@ -556,8 +556,17 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('An error occurred while fetching the monthly reports.');
         });
 
+    let currentPhonePayPage = 1;
+    const phonePayItemsPerPage = 12;
+    let phonePayData = []; // Variable to store the transaction data
+
     function populatePhonePayTable(transactionData) {
-        data = transactionData;
+        phonePayData = transactionData; // Store the data
+        displayPhonePayTable(currentPhonePayPage); // Display the first page
+        updatePhonePayPagination(phonePayData.length, currentPhonePayPage); // Update pagination controls
+    }
+
+    function displayPhonePayTable(page = 1) {
         const phonePayTableBody = document.getElementById('phonePayTableBody');
         phonePayTableBody.innerHTML = ''; // Clear existing rows
 
@@ -577,24 +586,29 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         // Sort data by year in descending order and then by month in ascending order
-        data.sort((a, b) => {
+        phonePayData.sort((a, b) => {
             if (b.year === a.year) {
                 return monthOrder[a.month] - monthOrder[b.month];
             }
             return b.year - a.year;
         });
 
+        // Calculate pagination details
+        const startIndex = (page - 1) * phonePayItemsPerPage;
+        const endIndex = page * phonePayItemsPerPage;
+        const paginatedTransactions = phonePayData.slice(startIndex, endIndex);
+
         let totalDebit = 0;
         let totalCredit = 0;
 
-        data.forEach(transaction => {
+        paginatedTransactions.forEach(transaction => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${transaction.month}</td>
-                <td>${transaction.year}</td>
-                <td>${transaction.amount.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}</td>
-                <td>${transaction.transactionType}</td>
-            `;
+            <td>${transaction.month}</td>
+            <td>${transaction.year}</td>
+            <td>${transaction.amount.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}</td>
+            <td>${transaction.transactionType}</td>
+        `;
             phonePayTableBody.appendChild(row);
 
             // Add the transaction amount to the respective total
@@ -605,23 +619,52 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Add footer rows to show the total debit and credit amounts
+        // Add footer rows to show the total debit and credit amounts for the current page
         const debitFooterRow = document.createElement('tr');
         debitFooterRow.innerHTML = `
-            <td colspan="2"><strong>Total Debit</strong></td>
-            <td colspan="2"><strong>${totalDebit.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}</strong></td>
-        `;
+        <td colspan="2"><strong>Total Debit</strong></td>
+        <td colspan="2"><strong>${totalDebit.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}</strong></td>
+    `;
         debitFooterRow.style.fontWeight = 'bold';
         phonePayTableBody.appendChild(debitFooterRow);
 
         const creditFooterRow = document.createElement('tr');
         creditFooterRow.innerHTML = `
-            <td colspan="2"><strong>Total Credit</strong></td>
-            <td colspan="2"><strong>${totalCredit.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}</strong></td>
-        `;
+        <td colspan="2"><strong>Total Credit</strong></td>
+        <td colspan="2"><strong>${totalCredit.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })}</strong></td>
+    `;
         creditFooterRow.style.fontWeight = 'bold';
         phonePayTableBody.appendChild(creditFooterRow);
     }
+
+    function updatePhonePayPagination(totalItems, currentPage) {
+        const totalPages = Math.ceil(totalItems / phonePayItemsPerPage);
+        const pageIndicator = document.getElementById('phonePayPageIndicator');
+        const prevPageButton = document.getElementById('phonePayPrevPage');
+        const nextPageButton = document.getElementById('phonePayNextPage');
+
+        pageIndicator.textContent = `Page ${currentPage} of ${totalPages}`;
+
+        prevPageButton.disabled = currentPage === 1;
+        nextPageButton.disabled = currentPage === totalPages;
+
+        prevPageButton.onclick = () => {
+            if (currentPage > 1) {
+                currentPhonePayPage--;
+                displayPhonePayTable(currentPhonePayPage);
+                updatePhonePayPagination(totalItems, currentPhonePayPage);
+            }
+        };
+
+        nextPageButton.onclick = () => {
+            if (currentPage < totalPages) {
+                currentPhonePayPage++;
+                displayPhonePayTable(currentPhonePayPage);
+                updatePhonePayPagination(totalItems, currentPhonePayPage);
+            }
+        };
+    }
+
 
 
     // Function to download table data as PDF
