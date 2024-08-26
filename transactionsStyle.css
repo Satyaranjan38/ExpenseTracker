@@ -294,6 +294,15 @@ footer {
     cursor: pointer;
 }
 
+.view-users-button {
+    background-color: #5d24c5;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 .delete-button:hover {
     background-color: #ff1a1a;
 }
@@ -348,5 +357,53 @@ footer {
         transform: scale(1);
     }
 }
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color:#2b2b3b;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+ul#groupMembersList {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul#groupMembersList li {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
 
 

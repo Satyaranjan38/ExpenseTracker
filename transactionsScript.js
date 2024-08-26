@@ -18,14 +18,14 @@ function hideLoader() {
 function loadGroups() {
     showLoader();
     
-    const userName =  localStorage.getItem('userName') ; 
+    const userName = localStorage.getItem('userName');
     fetch(`${API_BASE_URL}/api/groups/${userName}`)
         .then(response => response.json())
         .then(groups => {
             const groupDropdown = document.getElementById('groupDropdown');
             const groupDropdownRemove = document.getElementById('groupDropdownRemove');
             const groupTransactionDropdown = document.getElementById('groupTransactionDropdown');
-             const groupSelect = document.getElementById('groupSelect');
+            const groupSelect = document.getElementById('groupSelect');
 
             // Clear existing options
             groupDropdown.innerHTML = '<option value="" disabled selected>Select Group</option>';
@@ -44,11 +44,6 @@ function loadGroups() {
                 const optionTransaction = new Option(group.name, group.id);
                 groupTransactionDropdown.add(optionTransaction);
 
-              
-
-                // const optionSelect = new Option(group.name, group.id);
-                // groupSelect.add(optionSelect);
-
                 const groupBox = document.createElement('div');
                 groupBox.className = 'group-box';
 
@@ -61,14 +56,54 @@ function loadGroups() {
                 deleteButton.className = 'delete-button';
                 deleteButton.onclick = () => deleteGroup(group.id);
 
+                const viewUsersButton = document.createElement('button');
+                viewUsersButton.textContent = 'View Users';
+                viewUsersButton.className = 'view-users-button';
+                viewUsersButton.onclick = () => showGroupMembers(group.id);
+
                 groupBox.appendChild(groupName);
+                groupBox.appendChild(viewUsersButton);
                 groupBox.appendChild(deleteButton);
+                
                 groupSelect.appendChild(groupBox);
             });
             hideLoader();
         })
         .catch(error => console.error('Error loading groups:', error));
 }
+
+function showGroupMembers(groupId) {
+    const modal = document.getElementById('groupMembersModal');
+    const closeModal = document.getElementById('closeModal');
+    const groupMembersList = document.getElementById('groupMembersList');
+
+    // Clear existing members
+    groupMembersList.innerHTML = '';
+
+    // Fetch group members
+    fetch(`${API_BASE_URL}/api/groups/groupMembers/${groupId}`)
+        .then(response => response.json())
+        .then(members => {
+            members.forEach(member => {
+                const listItem = document.createElement('li');
+                listItem.textContent = member;
+                groupMembersList.appendChild(listItem);
+            });
+            modal.style.display = 'block';
+        })
+        .catch(error => console.error('Error loading group members:', error));
+
+    closeModal.onclick = () => {
+        modal.style.display = 'none';
+    };
+
+    window.onclick = event => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
+}
+
 
 // document.getElementById('groupSelect').addEventListener('change', function() {
 //     const groupId = this.value;
@@ -185,16 +220,17 @@ document.getElementById('addUserForm').addEventListener('submit', function(event
     event.preventDefault();
     const groupId = document.getElementById('groupDropdown').value;
     const userEmail = document.getElementById('userEmail').value;
+    console.log("email is " + userEmail) ; 
 
     if (!groupId) {
         alert('Please select a group.');
         return;
     }
 
-    fetch(`${API_BASE_URL}/api/groups/${groupId}/addUser`, {
-        method: 'POST',
+    fetch(`${API_BASE_URL}/api/groups/addUser/${groupId}?email=${userEmail}`, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: userEmail })
+        // body: JSON.stringify({ email: userEmail })
     })
     .then(response => response.json())
     .then(data => {

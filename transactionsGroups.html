@@ -81,11 +81,22 @@
             <h2>Group Transactions</h2>
 
             <h2>Select a Group to View Transactions</h2>
+            <div id="groupMembersModal" class="modal">
+                <div class="modal-content">
+                    <span id="closeModal" class="close">&times;</span>
+                    <h2>Group Members</h2>
+                    <ul id="groupMembersList">
+                        <!-- Group members will be listed here -->
+                    </ul>
+                </div>
+            </div>
             <div class="group-name-box">
                 <div id="groupSelect">
                     <!-- Group boxes will be dynamically added here -->
                 </div>
             </div>
+
+            
             <div class="table-responsive">
                 <table id="groupTransactionsTable">
                     <thead>
