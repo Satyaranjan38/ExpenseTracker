@@ -17,7 +17,7 @@ function hideLoader() {
 // Load groups for dropdowns
 function loadGroups() {
     showLoader();
-    localStorage.setItem('userName' , 'satyaranjanparida038@gmail.com'); 
+    
     const userName =  localStorage.getItem('userName') ; 
     fetch(`${API_BASE_URL}/api/groups/${userName}`)
         .then(response => response.json())
@@ -264,7 +264,7 @@ document.getElementById('groupTransactionForm').addEventListener('submit', funct
 });
 
 function loadUserContainingGroups(){
-    localStorage.setItem('userName' , 'satyaranjanparida038@gmail.com'); 
+    
     const userName =  localStorage.getItem('userName') ; 
     fetch(`${API_BASE_URL}/api/groups?userName=userName`)
         .then(response =>response.json())
