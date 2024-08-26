@@ -270,3 +270,83 @@ footer {
 
 /* Ensure other elements retain consistency */
 
+.group-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2b2b3b;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.group-box span {
+    cursor: pointer;
+}
+
+.delete-button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background-color: #ff1a1a;
+}
+
+.group-box:hover {
+    background-color: #38384a;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.loader {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    display: none;
+    pointer-events: none;
+}
+
+.loader.active {
+    display: flex;
+    pointer-events: all;
+}
+
+.loader .dot1, .loader .dot2, .loader .dot3 {
+    width: 15px;
+    height: 15px;
+    background-color: #3498db;
+    border-radius: 50%;
+    margin: 0 5px;
+    animation: bounce 1.2s infinite ease-in-out;
+}
+
+.loader .dot2 {
+    animation-delay: -0.4s;
+}
+
+.loader .dot3 {
+    animation-delay: -0.8s;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1);
+    }
+}
+
+

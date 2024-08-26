@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Transactions</title>
+    <link rel="stylesheet" href="transactionsStyle.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">Owe & Lent Tracker</div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="lent.html">Transactions</a>
+            <a href="reminder.html">Reminder</a>
+            <a href="login.html">Logout</a>
+            <a href="upload.html">Upload</a>
+        </nav>
+    </header>
+
+    <main>
+        <div id="loader" class="loader">
+            <div class="dot1"></div>
+            <div class="dot2"></div>
+            <div class="dot3"></div>
+        </div>
+        <section class="form-section">
+            <h2>Create Group</h2>
+            <form id="createGroupForm">
+                <input type="text" id="groupName" placeholder="Group Name" required>
+                <button type="submit">Create Group</button>
+            </form>
+
+            <h2>Add User to Group</h2>
+            <form id="addUserForm">
+                <select id="groupDropdown">
+                    <option value="" disabled selected>Select Group</option>
+                </select>
+                <select id="userEmail" required>
+                    <option value="" disabled selected>Select Email</option>
+                </select>
+                <button type="submit">Add User</button>
+            </form>
+
+            <h2>Remove User from Group</h2>
+            <form id="removeUserForm">
+                <select id="groupDropdownRemove">
+                    <option value="" disabled selected>Select Group</option>
+                </select>
+                <select id="userEmailRemove" required>
+                    <option value="" disabled selected>Select Email</option>
+                </select>
+                <button type="submit">Remove User</button>
+            </form>
+
+            
+
+            <h2>Add Transaction to Group</h2>
+            <form id="groupTransactionForm">
+                <select id="groupTransactionDropdown">
+                    <option value="" disabled selected>Select Group</option>
+                </select>
+                <input type="text" id="personNameGroup" placeholder="Person Name" required>
+                <input type="number" id="amountGroup" placeholder="Amount" required>
+                <select id="transactionTypeGroup" required>
+                    <option value="" disabled selected>Type</option>
+                    <option value="lent">Lent</option>
+                    <option value="owe">Owe</option>
+                </select>
+                <input type="date" id="expenseDateGroup" required>
+                <input type="text" id="reasonGroup" placeholder="Reason (Optional)">
+                <button type="submit">Add Transaction</button>
+            </form>
+        </section>
+
+        
+
+        <section class="transactions-section">
+            <h2>Group Transactions</h2>
+
+            <h2>Select a Group to View Transactions</h2>
+            <div class="group-name-box">
+                <div id="groupSelect">
+                    <!-- Group boxes will be dynamically added here -->
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table id="groupTransactionsTable">
+                    <thead>
+                        <tr>
+                            <th>Group</th>
+                            <th>Person Name</th>
+                            <th>Amount</th>
+                            <th>Reason</th>
+                            <th>Paid</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Group transactions will be added here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 Owe & Lent Tracker. All rights reserved.</p>
+    </footer>
+
+    <script src="transactionsScript.js"></script>
+</body>
+
+</html>
