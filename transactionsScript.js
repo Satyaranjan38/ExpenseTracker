@@ -127,7 +127,9 @@ function deleteGroup(groupId) {
 }
 
 function loadGroupMembers(groupId) {
+    showLoader();
     fetch(`${API_BASE_URL}/api/groups/groupMembers/${groupId}`)
+    
         .then(response => response.json())
         .then(data => {
             const emailDropdown = document.getElementById('userEmailRemove');
@@ -135,24 +137,21 @@ function loadGroupMembers(groupId) {
             // Clear existing options
             emailDropdown.innerHTML = '<option value="" disabled selected>Select Email</option>';
 
-            // Parse the JSON strings and extract email addresses
-            data.forEach(item => {
-                try {
-                    const parsedItem = JSON.parse(item);
-                    const email = parsedItem.email;
-                    
-                    // Create a new option element
-                    const option = document.createElement('option');
-                    option.value = email;
-                    option.textContent = email;
-                    emailDropdown.appendChild(option);
-                } catch (error) {
-                    console.error('Error parsing JSON:', error);
-                }
+            // Add each email from the response to the dropdown
+            data.forEach(email => {
+                const option = document.createElement('option');
+                option.value = email;
+                option.textContent = email;
+                emailDropdown.appendChild(option);
             });
+
+            hideLoader();
         })
-        .catch(error => console.error('Error loading group members:', error));
+        .catch(  
+            error => console.error('Error loading group members:', error));
+            hideLoader();
 }
+
 
 // Event listener for group dropdown change
 document.getElementById('groupDropdownRemove').addEventListener('change', function() {
