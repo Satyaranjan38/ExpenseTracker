@@ -261,6 +261,7 @@ const generateCodeBtn = document.getElementById("generateCodeBtn");
         .then(data => {
             if (data.message) {
                 alert("Friend added successfully!");
+                fetchFriends();
             } else if (data.error) {
                 alert("Error adding friend: " + data.error);
             }

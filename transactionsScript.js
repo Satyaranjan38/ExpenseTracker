@@ -374,6 +374,7 @@ function notifyPerson(id, email, transactionType) {
     }
 }
 
+setInterval(loadGroups , 60000);
 
 
 // Load initial data
