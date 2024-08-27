@@ -980,6 +980,7 @@ document.addEventListener('DOMContentLoaded', () => {
     displayExpenses();
     // updateChart();
     updateBudgetReport();
+    setInterval(fetchNotifications, 60000);
     fetchNotifications();
 });
 
