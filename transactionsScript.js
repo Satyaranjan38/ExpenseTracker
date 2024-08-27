@@ -251,7 +251,7 @@ document.getElementById('removeUserForm').addEventListener('submit', function(ev
         return;
     }
 
-    fetch(`http://localhost:8080/api/groups/${groupId}/removeUser?email=${userEmail}`, {
+    fetch(`${API_BASE_URL}/groups/${groupId}/removeUser?email=${userEmail}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         // body: JSON.stringify({ email: userEmail })
