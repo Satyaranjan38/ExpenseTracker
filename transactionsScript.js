@@ -127,6 +127,7 @@ function deleteGroup(groupId) {
 }
 
 function loadGroupMembers(groupId) {
+    
     showLoader();
     fetch(`${API_BASE_URL}/api/groups/groupMembers/${groupId}`)
     
@@ -149,7 +150,7 @@ function loadGroupMembers(groupId) {
         })
         .catch(  
             error => console.error('Error loading group members:', error));
-            hideLoader();
+            
 }
 
 
@@ -252,6 +253,8 @@ document.getElementById('removeUserForm').addEventListener('submit', function(ev
         return;
     }
 
+    showLoader() ; 
+
     fetch(`${API_BASE_URL}/api/groups/${groupId}/removeUser?email=${userEmail}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -259,10 +262,10 @@ document.getElementById('removeUserForm').addEventListener('submit', function(ev
     })
     .then(response => response.json())
     .then(data => {
+        hideLoader() ; 
         console.log('User removed successfully:', data);
     })
     .catch(error => console.error('Error removing user:', error));
-
     this.reset();
 });
 
