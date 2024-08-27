@@ -166,7 +166,8 @@ document.addEventListener('DOMContentLoaded', loadGroups);
 
 // Load emails for the dropdown
 function loadEmails() {
-    fetch('https://imageocr-nsnb.onrender.com/getFriendsByUserName?user_name=satyaranjanparida038@gmail.com')
+    const userName = localStorage.getItem('userName');
+    fetch(`https://imageocr-nsnb.onrender.com/getFriendsByUserName?user_name=${userName}`)
         .then(response => response.json())
         .then(data => {
             const emailDropdown = document.getElementById('userEmail');
