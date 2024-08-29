@@ -5,20 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Expense Tracker</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="zmobile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
-    <!-- Top Navbar -->
-    <nav class="top-navbar">
+    <header>
         <div class="logo">Expense Tracker</div>
-        <ul class="nav-links">
-            <li><a href="zmobile.html">Mobile</a></li>
-            <li><a href="transactionsGroups.html">Group Transactions</a></li>
-            <li><a href="lent.html">Transactions</a></li>
-            <li><a href="reminder.html">Reminder</a></li>
-        </ul>
         <div id="profile">
             <div id="profile-name"></div>
         </div>
@@ -26,24 +19,24 @@
             <i class="fa fa-bell"></i>
             <span id="notification-count" style="display: none;"></span>
         </button>
-    </nav>
+    </header>
 
-    <div id="loader" class="loader">
-        <div class="dot1"></div>
-        <div class="dot2"></div>
-        <div class="dot3"></div>
-    </div>
+    <main>
+        <nav class="sidebar">
+            <button id="lent" type="button" class="sidebar-btn disabled-button" disabled>Check Lent</button>
+            <button id="upload" type="button" class="sidebar-btn">Upload Phone Pay Transaction</button>
+            <button id="mobile" type="submit" >Mobile Device</button>
+        </nav>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <button id="lent" type="button" class="disabled-button" disabled>Check Lent</button>
-        <button id="upload" type="submit">Upload Phone Pay Transaction</button>
-        <button id="mobile" type="submit">Mobile Device</button>
-    </div>
+        <div id="loader" class="loader">
+            <div class="dot1"></div>
+            <div class="dot2"></div>
+            <div class="dot3"></div>
+        </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <div id="total-expense">Total Expense: $0.00</div>
+        <section id="total-expense">
+            Total Expense: $0.00
+        </section>
 
         <section id="expense-list">
             <h2>Expense List</h2>
@@ -97,7 +90,7 @@
             <h2>Set Budget</h2>
             <form id="budget-form">
                 <input type="number" id="budget-amount" placeholder="Budget Amount" required>
-                <button id ="budget-btn" type="submit">Set Budget</button>
+                <button type="submit">Set Budget</button>
             </form>
         </section>
 
@@ -110,19 +103,18 @@
                 <button id="resetZoom">Reset Zoom</button>
             </section>
 
-            <section id="budget-report">
+            <section id="Budget-report">
                 <h2>Budget Report</h2>
                 <canvas id="report-budget"></canvas>
             </section>
         </div>
 
-        <section id="phonePay-report">
+        <section id="PhonePay-report">
             <h2>PhonePay Report</h2>
             <div>
                 <label for="yearFilter">Filter by Year: </label>
                 <select id="yearFilter">
                     <option value="">All Years</option>
-                    <!-- Year options will be dynamically populated here -->
                 </select>
             </div>
             <div class="table-responsive">
@@ -148,7 +140,7 @@
             </div>
 
             <button id="downloadExcel">Download Excel</button>
-            <canvas id="phonePay-report-chart"></canvas>
+            <canvas id="PhonePay-report-chart"></canvas>
         </section>
 
         <div id="notification-modal" class="modal">
@@ -158,16 +150,17 @@
                 <ul id="notification-list"></ul>
             </div>
         </div>
-    </div>
+    </main>
 
     <footer>
         <p>© 2024 Expense Tracker. All rights reserved.</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.0/dist/chartjs-plugin-zoom.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.0/dist/chartjs-plugin-zoom.min.js"></script>
+
     <script src="script.js"></script>
 </body>
 

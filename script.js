@@ -5,6 +5,11 @@ let totalCredit = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    document.getElementById('mobile').addEventListener('click', () => {
+        window.location.href = 'zmobile.html';
+    });
+
+
     function showLoader() {
         const loader = document.getElementById('loader');
         loader.classList.add('active');
@@ -400,6 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateBudgetReport() {
         const userName = localStorage.getItem('userName');
+        const budgetReportChartCanvas = document.getElementById('report-budget');
 
         fetch(`https://railwaybackend-ludo.onrender.com/getBudgetReport/${userName}`)
             .then(response => response.json())
