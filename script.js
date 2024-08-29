@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update displayExpenses function to include the new "Update" button
     let currentPage = 1;
-    const itemsPerPage = 10;
+    const itemsPerPage = 5;
     let cachedExpenses = []; // Variable to store fetched expenses
 
     function fetchExpenses() {
@@ -595,7 +595,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
 
     let currentPhonePayPage = 1;
-    const phonePayItemsPerPage = 12;
+    const phonePayItemsPerPage = 6;
     let phonePayData = []; // Variable to store the transaction data
 
     function populatePhonePayTable(transactionData) {
