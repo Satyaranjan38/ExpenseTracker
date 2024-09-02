@@ -1,0 +1,121 @@
+/* styles.css */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f4f4;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.navbar {
+    background-color: #007bff;
+    padding: 1rem;
+    text-align: center;
+}
+
+.navbar ul {
+    list-style-type: none;
+}
+
+.navbar ul li {
+    display: inline;
+    margin: 0 1rem;
+}
+
+.navbar ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.container {
+    flex: 1;
+    padding: 2rem;
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+button {
+    width: 100%;
+    padding: 1rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.reminders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    text-align: left;
+}
+
+.reminders-table th, .reminders-table td {
+    padding: 1rem;
+    border: 1px solid #ddd;
+}
+
+.reminders-table th {
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+}
+
+.reminders-table td {
+    background-color: #f9f9f9;
+}
+
+footer {
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    margin-top: auto;
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Reminder</title>
+    <link rel="stylesheet" href="zbirthdayReminder.css">
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="lent.html">Transactions</a></li>
+            <li><a href="reminder.html">Reminder</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>Birthday Reminder</h1>
+        <form id="reminderForm">
+            <div class="form-group">
+                <label for="name">Person Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="birthday">Birthday Date:</label>
+                <input type="date" id="birthday" name="birthday" required>
+            </div>
+            <div class="form-group">
+                <label for="wish">Birthday Wish:</label>
+                <textarea id="wish" name="wish" rows="4" required></textarea>
+            </div>
+            <button type="button" onclick="generateWish()">Generate Random Wish</button>
+            <button type="submit">Set Reminder</button>
+        </form>
+
+        <h2>Your Reminders</h2>
+        <table id="remindersTable" class="reminders-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Birthday Date</th>
+                    <th>Birthday Wish</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="remindersTableBody">
+                <!-- Dynamically generated reminders will appear here -->
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Birthday Reminder</p>
+    </footer>
+
+    <script src="zbirthdayReminder.js"></script>
+</body>
+</html>
