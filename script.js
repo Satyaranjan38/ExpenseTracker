@@ -715,7 +715,7 @@ document.addEventListener('DOMContentLoaded', () => {
             wsData.push([
                 transaction.month,
                 transaction.year,
-                transaction.amount.toLocaleString('en-IN', { style: 'currency', currency: 'INR' }),
+                transaction.amount,
                 transaction.transactionType
             ]);
         });
