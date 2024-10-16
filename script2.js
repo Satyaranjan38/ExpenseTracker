@@ -1,6 +1,6 @@
 
 
-const API_BASE_URL = 'https://railwaybackend-ludo.onrender.com'; 
+const API_BASE_URL = 'https://imageocr2.onrender.com'; 
 const ctx = document.getElementById('transactionChart').getContext('2d');
 const transactionChart = new Chart(ctx, {
     type: 'pie', 
@@ -221,7 +221,7 @@ const generateCodeBtn = document.getElementById("generateCodeBtn");
 
     // Function to handle generating a friendship code
     function generateCode() {
-        fetch('https://imageocr-nsnb.onrender.com/generate_code', {
+        fetch(`${API_BASE_URL}/generate_code`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -250,7 +250,7 @@ const generateCodeBtn = document.getElementById("generateCodeBtn");
             return;
         }
 
-        fetch('https://imageocr-nsnb.onrender.com/add_friend', {
+        fetch(`${API_BASE_URL}/add_friend`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -285,7 +285,7 @@ const generateCodeBtn = document.getElementById("generateCodeBtn");
     async function fetchFriends() {
         try {
             const userName = localStorage.getItem('userName');
-            const response = await fetch(`https://imageocr-nsnb.onrender.com/getFriendsByUserName?user_name=${userName}`);
+            const response = await fetch(`${API_BASE_URL}/getFriendsByUserName?user_name=${userName}`);
             const data = await response.json();
             const friends = data.friend_names;
             
