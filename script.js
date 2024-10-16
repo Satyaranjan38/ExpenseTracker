@@ -408,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const userName = localStorage.getItem('userName');
         const budgetReportChartCanvas = document.getElementById('report-budget');
 
-        fetch(`${API_BASE_URL2}/getBudgetReport/${userName}`)
+        fetch(`${API_BASE_URL}/getBudgetReport/${userName}`)
             .then(response => response.json())
             .then(report => {
                 const budget = report.body.budget;
@@ -911,7 +911,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchNotifications = () => {
         const userName = localStorage.getItem('userName');
-        fetch(`${API_BASE_URL2}/getNotification?userName=${userName}`)
+        fetch(`${API_BASE_URL}/getNotification?userName=${userName}`)
             .then(response => response.json())
             .then(notifications => {
                 notificationList.innerHTML = '';
@@ -934,7 +934,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const markAsRead = (notification) => {
-        fetch(`${API_BASE_URL2}/updateNotification?id=${notification.id}&isRead=true`)
+        fetch(`${API_BASE_URL}/updateNotification?id=${notification.id}&isRead=true`)
             .then(response => response.json())
             .then(updatedNotification => {
                 if (updatedNotification.isRead) {
