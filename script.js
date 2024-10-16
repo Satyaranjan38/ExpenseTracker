@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lentButton = document.getElementById('lent');
     enableButtonAfterFetch();
     function enableButtonAfterFetch() {
-        fetch('https://railwaybackend-ludo.onrender.com/welcome')
+        fetch(`${API_BASE_URL}/welcome`)
             .then(response => {
                 if (response.ok) {
                     // Enable the button oncexxxxxxxxxxx the response is received
