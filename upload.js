@@ -8,6 +8,8 @@ document.getElementById('uploadForm').addEventListener('submit', function (e) {
     const tableBody = resultTable.querySelector('tbody');
     const totalAmountCell = document.getElementById('totalAmount');
     const totalDebit = document.getElementById('total-debit');
+    const API_BASE_URL = 'https://railwaybackend2.onrender.com';
+    const API_MOVIE_BASE_URL = 'https://railwaybackend2.onrender.com';
 
     const file = fileInput.files[0];
     const password = passwordInput.value;
@@ -25,7 +27,7 @@ document.getElementById('uploadForm').addEventListener('submit', function (e) {
     formData.append('device', device);
 
     showLoader();
-    fetch('https://imageocr-nsnb.onrender.com/upload', {
+    fetch(`API_BASE_URL/upload`, {
         method: 'POST',
         body: formData
     })
@@ -84,7 +86,7 @@ function saveDataInBackend(file, password, device) {
     formData.append('device', device);
     const userName = localStorage.getItem('userName');
 
-    fetch(`https://MovieSearch.cfapps.us10-001.hana.ondemand.com/api/upload/${userName}`, {
+    fetch(`${API_MOVIE_BASE_URL}/api/upload/${userName}`, {
         method: 'POST',
         body: formData
     })
