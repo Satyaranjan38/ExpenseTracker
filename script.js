@@ -34,7 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const expensesList = document.getElementById('expenses');
     const expenseChartCtx = document.getElementById('expense-chart').getContext('2d');
     const totalExpenseElement = document.getElementById('total-expense');
-    const API_BASE_URL = 'https://MovieSearch.cfapps.us10-001.hana.ondemand.com';
+    const API_BASE_URL = 'https://railwaybackend2.onrender.com';
+    const API_BASE_URL2 = 'https://imageocr2.onrender.com';
     const budgetReportChartCanvas = document.getElementById('Budget-report-chart');
 
     const expenseChartCanvas = document.getElementById('expense-chart');
@@ -167,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to handle the category update
     function updateExpense(id, newCategory) {
-        fetch(`https://imageocr-nsnb.onrender.com/update-category/${id}`, {
+        fetch(`${API_BASE_URL2}/update-category/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -239,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const userName = localStorage.getItem('userName');
         showLoader();
 
-        fetch(`https://imageocr-nsnb.onrender.com/get-current-month-transactions/${userName}`)
+        fetch(`${API_BASE_URL2}/get-current-month-transactions/${userName}`)
             .then(response => response.json())
             .then(expenses => {
                 cachedExpenses = expenses; // Cache the fetched expenses
@@ -351,7 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function setBudget() {
         const budgetAmount = parseFloat(document.getElementById('budget-amount').value);
         const userName = localStorage.getItem('userName');
-        fetch(`https://railwaybackend-ludo.onrender.com/budget/${userName}`, {
+        fetch(`${API_BASE_URL}/budget/${userName}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -407,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const userName = localStorage.getItem('userName');
         const budgetReportChartCanvas = document.getElementById('report-budget');
 
-        fetch(`https://railwaybackend-ludo.onrender.com/getBudgetReport/${userName}`)
+        fetch(`${API_BASE_URL2}/getBudgetReport/${userName}`)
             .then(response => response.json())
             .then(report => {
                 const budget = report.body.budget;
@@ -474,7 +475,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const ctx = document.getElementById('expense-chart').getContext('2d');
     const userName = localStorage.getItem('userName');
-    fetch(`https://imageocr-nsnb.onrender.com/get-data/${userName}`)
+    fetch(`${API_BASE_URL2}/get-data/${userName}`)
         .then(response => response.json())
         .then(data => {
             // Define an array to maintain the correct month order
@@ -910,7 +911,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchNotifications = () => {
         const userName = localStorage.getItem('userName');
-        fetch(`https://railwaybackend-ludo.onrender.com/getNotification?userName=${userName}`)
+        fetch(`${API_BASE_URL2}/getNotification?userName=${userName}`)
             .then(response => response.json())
             .then(notifications => {
                 notificationList.innerHTML = '';
@@ -933,7 +934,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const markAsRead = (notification) => {
-        fetch(`https://railwaybackend-ludo.onrender.com/updateNotification?id=${notification.id}&isRead=true`)
+        fetch(`${API_BASE_URL2}/updateNotification?id=${notification.id}&isRead=true`)
             .then(response => response.json())
             .then(updatedNotification => {
                 if (updatedNotification.isRead) {
