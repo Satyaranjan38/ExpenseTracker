@@ -34,10 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const expensesList = document.getElementById('expenses');
     const expenseChartCtx = document.getElementById('expense-chart').getContext('2d');
     const totalExpenseElement = document.getElementById('total-expense');
-//     const API_BASE_URL = 'https://railwaybackend2.onrender.com';    
-//     const API_BASE_URL2 = 'https://imageocr2.onrender.com';
- // const API_BASE_URL = 'https://railwaybackend-ludo.onrender.com';
- // const API_BASE_URL2 = 'https://imageocr-nsnb.onrender.com';
+    const API_BASE_URL = 'https://railwaybackend2.onrender.com';    
+    const API_BASE_URL2 = 'https://imageocr2.onrender.com';
+    // const API_BASE_URL = 'https://railwaybackend-ludo.onrender.com';
+    // const API_BASE_URL2 = 'https://imageocr-nsnb.onrender.com';
     const budgetReportChartCanvas = document.getElementById('Budget-report-chart');
 
     const expenseChartCanvas = document.getElementById('expense-chart');
