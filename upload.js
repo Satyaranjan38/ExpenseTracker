@@ -8,8 +8,8 @@ document.getElementById('uploadForm').addEventListener('submit', function (e) {
     const tableBody = resultTable.querySelector('tbody');
     const totalAmountCell = document.getElementById('totalAmount');
     const totalDebit = document.getElementById('total-debit');
-    const API_BASE_URL = 'https://railwaybackend2.onrender.com';
-    // const API_BASE_URL = 'https://railwaybackend-ludo.onrender.com';
+    const API_BASE_URL = 'https://imageocr-nsnb.onrender.com';
+    // const API_BASE_URL = 'https://imageocr2.onrender.com';
 
     const file = fileInput.files[0];
     const password = passwordInput.value;
@@ -86,7 +86,7 @@ function saveDataInBackend(file, password, device) {
     formData.append('device', device);
     const userName = localStorage.getItem('userName');
 
-    fetch(`${API_MOVIE_BASE_URL}/api/upload/${userName}`, {
+    fetch(`${API_BASE_URL}/api/upload/${userName}`, {
         method: 'POST',
         body: formData
     })
