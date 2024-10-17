@@ -1,10 +1,49 @@
 document.addEventListener('DOMContentLoaded', () => {
    // const API_BASE_URL = 'https://railwaybackend-ludo.onrender.com';// Replace with your actual API base URL
-    const API_BASE_URL = 'https://railwaybackend2.onrender.com';
+    // const API_BASE_URL = 'https://railwaybackend2.onrender.com';
     //const API_BASE_URL = 'http://localhost:8086';
     const reminderForm = document.getElementById('reminder-form');
     const remindersTableBody = document.getElementById('remindersTableBody');
-    
+    let API_BASE_URL = '';
+
+const API_BASE_URL_1 = 'https://railwaybackend-ludo.onrender.com'; // Primary URL
+const API_BASE_URL_2 = 'https://railwaybackend2.onrender.com'; // Backup URL
+let currentBaseUrl = API_BASE_URL_1; // Initially set to the primary URL
+
+async function checkServiceStatus() {
+    try {
+        // Fetch the status from the current URL
+        const response = await fetch(`${currentBaseUrl}/welcome`);
+
+        // Check if the status code is 503 (Service Unavailable)
+        if (response.status === 503) {
+            console.log(`Service at ${currentBaseUrl} is unavailable (503). Switching to the backup URL.`);
+            // Switch to the backup URL
+            currentBaseUrl = currentBaseUrl === API_BASE_URL_1 ? API_BASE_URL_2 : API_BASE_URL_1;
+            API_BASE_URL = currentBaseUrl;
+        } else {
+            // Otherwise, handle the response as text (assuming it's plain text)
+            const data = await response.text();
+
+            // Check if the response contains the "suspend" keyword
+            if (data.toLowerCase().includes('suspend')) {
+                console.log(`Service at ${currentBaseUrl} is suspended. Switching to the backup URL.`);
+                // Switch to the backup URL
+                currentBaseUrl = currentBaseUrl === API_BASE_URL_1 ? API_BASE_URL_2 : API_BASE_URL_1;
+                API_BASE_URL = currentBaseUrl;
+            } else {
+                console.log(`Service at ${currentBaseUrl} is running normally.`);
+                API_BASE_URL = currentBaseUrl;
+            }
+        }
+    } catch (error) {
+        console.error('Error checking service status:', error);
+        // If there's an error (e.g., network error), switch to the backup URL as a fallback
+        currentBaseUrl = currentBaseUrl === API_BASE_URL_1 ? API_BASE_URL_2 : API_BASE_URL_1;
+        API_BASE_URL = currentBaseUrl;
+    }
+}
+
     // Event listener for form submission
     reminderForm.addEventListener('submit', (event) => {
         event.preventDefault();
@@ -12,11 +51,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Function to add a new reminder
-    function addReminder() {
+    async function addReminder() {
         const title = document.getElementById('reminder-title').value;
         const date = document.getElementById('reminder-date').value;
         const userName = localStorage.getItem('userName');
         const category = document.getElementById('catagory').value;
+        
 
         fetch(`${API_BASE_URL}/reminders`, {
             method: 'POST',
@@ -34,8 +74,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Function to display all reminders for the current user
-    function displayReminders() {
+    async function displayReminders() {
         const userName = localStorage.getItem('userName');
+
+        await checkServiceStatus();
         fetch(`${API_BASE_URL}/reminders/${userName}`)
             .then(response => response.json())
             .then(reminders => {
