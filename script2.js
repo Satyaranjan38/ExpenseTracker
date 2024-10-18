@@ -3,8 +3,8 @@
 // const API_BASE_URL = 'https://railwaybackend2.onrender.com'; 
 // const API_BASE_URL2 = 'https://imageocr2.onrender.com'; 
 
-const API_BASE_URL = 'https://railwaybackend-ludo.onrender.com'; 
-const API_BASE_URL2 = 'https://imageocr-nsnb.onrender.com';
+const API_BASE_URL = 'https://railwaybackend-l1gq.onrender.com'; 
+const API_BASE_URL2 = 'https://imageocr-9llr.onrender.com/welcome';
 const ctx = document.getElementById('transactionChart').getContext('2d');
 const transactionChart = new Chart(ctx, {
     type: 'pie', 
