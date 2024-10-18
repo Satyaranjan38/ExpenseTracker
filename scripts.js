@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded',async function() {
         hideLoader() ; 
     });
 
-    const API_BASE_URL = 'https://imageocr-9llr.onrender.com/welcome'; // Replace with your backend base URL
+    const API_BASE_URL = 'https://imageocr-9llr.onrender.com'; // Replace with your backend base URL
     // const API_BASE_URL = 'https://imageocr-nsnb.onrender.com';
     const CLIENT_ID = 'sb-na-3763d269-8272-4902-8ea4-21723882f1c7!t308628'; // Replace with your XSUAA client ID
     const CLIENT_SECRET = 'PoDxFeCXfWYmlfluThhpUUd6Uwo='; // Replace with your XSUAA client secret
