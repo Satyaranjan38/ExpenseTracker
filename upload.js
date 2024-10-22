@@ -27,7 +27,7 @@ document.getElementById('uploadForm').addEventListener('submit', function (e) {
     formData.append('device', device);
 
     showLoader();
-    fetch(`API_BASE_URL/upload`, {
+    fetch(`${API_BASE_URL}/upload`, {
         method: 'POST',
         body: formData
     })
