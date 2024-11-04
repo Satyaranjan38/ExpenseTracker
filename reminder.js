@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const remindersTableBody = document.getElementById('remindersTableBody');
     let API_BASE_URL = '';
 
-const API_BASE_URL_1 = 'https://railwaybackend-l1gq.onrender.com'; // Primary URL
-const API_BASE_URL_2 = 'https://railwaybackend-l1gq.onrender.com'; // Backup URL
+const API_BASE_URL_1 = 'https://railwaybackend-ludo.onrender.com'; // Primary URL
+const API_BASE_URL_2 = 'https://railwaybackend-ludo.onrender.com'; // Backup URL
 let currentBaseUrl = API_BASE_URL_1; // Initially set to the primary URL
 
 async function checkServiceStatus() {
