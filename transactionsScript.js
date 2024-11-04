@@ -1,5 +1,5 @@
-const API_BASE_URL = 'https://imageocr-9llr.onrender.com';
-const FRIENDS_API_URL = 'https://imageocr2.onrender.com/getFriendsByUserName?user_name=satyaranjanparida038@gmail.com';
+const API_BASE_URL = 'https://imageocr-nsnb.onrender.com';
+const FRIENDS_API_URL = 'https://imageocr-nsnb.onrender.com/getFriendsByUserName?user_name=satyaranjanparida038@gmail.com';
 
 
 function showLoader() {
