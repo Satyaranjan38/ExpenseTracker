@@ -739,6 +739,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
         const ws = XLSX.utils.aoa_to_sheet(wsData);
         ws['!autofilter'] = { ref: "A1:D" + wsData.length };
+         const maxLengths = wsData[0].map((_, colIndex) => (
+        Math.max(...wsData.map(row => (row[colIndex] || '').toString().length))
+    ));
+    ws['!cols'] = maxLengths.map(length => ({ width: Math.min(30, length + 5) })); // Max width capped at 30
         XLSX.utils.book_append_sheet(wb, ws, "PhonePay Transactions");
     
         XLSX.writeFile(wb, "PhonePay_Transactions.xlsx");
