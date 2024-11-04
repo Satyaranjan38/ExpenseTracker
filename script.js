@@ -734,6 +734,7 @@ document.addEventListener('DOMContentLoaded', () => {
         wsData.push(["", "", "Total Credit", totalCredit.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })]);
     
         const ws = XLSX.utils.aoa_to_sheet(wsData);
+        ws['!autofilter'] = { ref: "A1:D" + wsData.length };
         XLSX.utils.book_append_sheet(wb, ws, "PhonePay Transactions");
     
         XLSX.writeFile(wb, "PhonePay_Transactions.xlsx");
