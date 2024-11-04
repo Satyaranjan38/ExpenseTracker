@@ -732,6 +732,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add Total Debit and Credit to the worksheet
         wsData.push(["", "", "Total Debit", totalDebit.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })]);
         wsData.push(["", "", "Total Credit", totalCredit.toLocaleString('en-IN', { style: 'currency', currency: 'INR' })]);
+
+        const amountColumnIndex = 3; // "Amount" column index is 3 (0-based)
+        const lastRow = wsData.length + 1; // +1 to account for Excel's 1-based indexing
+         wsData.push(["", "", "Filtered Total", { f: `SUBTOTAL(9, C2:C${lastRow - 1})` }]);
     
         const ws = XLSX.utils.aoa_to_sheet(wsData);
         ws['!autofilter'] = { ref: "A1:D" + wsData.length };
