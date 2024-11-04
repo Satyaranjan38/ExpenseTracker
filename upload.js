@@ -8,8 +8,8 @@ document.getElementById('uploadForm').addEventListener('submit', function (e) {
     const tableBody = resultTable.querySelector('tbody');
     const totalAmountCell = document.getElementById('totalAmount');
     const totalDebit = document.getElementById('total-debit');
-    const API_BASE_URL = 'https://imageocr-9llr.onrender.com';
-    // const API_BASE_URL = 'https://imageocr2.onrender.com';
+    // const API_BASE_URL = 'https://imageocr-9llr.onrender.com';
+    const API_BASE_URL = 'https://imageocr2.onrender.com';
 
     const file = fileInput.files[0];
     const password = passwordInput.value;
