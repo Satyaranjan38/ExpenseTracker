@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://imageocr-nsnb.onrender.com';
+const API_BASE_URL = 'https://railwaybackend-ludo.onrender.com';
 const FRIENDS_API_URL = 'https://imageocr-nsnb.onrender.com/getFriendsByUserName?user_name=satyaranjanparida038@gmail.com';
 
 
