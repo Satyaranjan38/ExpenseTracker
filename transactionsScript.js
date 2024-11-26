@@ -2,6 +2,7 @@
 // const FRIENDS_API_URL = 'https://imageocr-nsnb.onrender.com/getFriendsByUserName?user_name=satyaranjanparida038@gmail.com';
 const API_BASE_URL = 'https://railwaybackend-l1gq.onrender.com';
 const FRIENDS_API_URL = 'https://imageocr-9llr.onrender.com/getFriendsByUserName?user_name=satyaranjanparida038@gmail.com';
+const ffUrl = 'https://imageocr-9llr.onrender.com' ; 
 
 function showLoader() {
     const loader = document.getElementById('loader');
@@ -169,7 +170,7 @@ document.addEventListener('DOMContentLoaded', loadGroups);
 // Load emails for the dropdown
 function loadEmails() {
     const userName = localStorage.getItem('userName');
-    fetch(`https://imageocr-nsnb.onrender.com/getFriendsByUserName?user_name=${userName}`)
+    fetch(`${ffUrl}/getFriendsByUserName?user_name=${userName}`)
         .then(response => response.json())
         .then(data => {
             const emailDropdown = document.getElementById('userEmail');
